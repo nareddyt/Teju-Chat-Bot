@@ -1,21 +1,19 @@
 'use strict';
 
+// NPM dependencies
 var express = require('express');
-var logger = require('./util/logger');
 
+// My js dependencies
+var verifyFbWebhook = require('./broker/verifyWebhook');
+var handleUserMessage = require('./broker/userRequest');
+
+// Set up the router
 var router = express.Router();
 
 // Handles FB webhook registration
-router.get('/broker', function (req, res) {
+router.get('/broker', verifyFbWebhook);
 
-    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FB_VERIFY_TOKEN) {
-        logger.log('info', 'fb webhook validated!');
-        res.status(200).send(req.query['hub.challenge']);
-    } else {
-        logger.log('warn', 'fb webhook registration failed, validation token is probably wrong');
-        res.sendStatus(403);
-    }
-
-});
+// Handles FB Messenger message from user
+router.post('/broker', handleUserMessage);
 
 module.exports = router;

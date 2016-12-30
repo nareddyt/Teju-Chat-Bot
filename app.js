@@ -3,6 +3,7 @@
 // NPM dependencies
 var express = require('express');
 var bodyParser = require('body-parser');
+var helmet = require('helmet');
 
 // My js files
 var logger = require('./util/logger');
@@ -11,6 +12,7 @@ var router = require('./router');
 
 // Create the app
 var app = express();
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

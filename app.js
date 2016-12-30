@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Log all requests to the web server
 app.use(function (req, res, next) {
-    logger.log('info', req.originalUrl + ' with payload ' + JSON.stringify(req.body));
+    logger.log('info', req.originalUrl + ' with payload ' + JSON.stringify(req.body) + ' and headers ' + JSON.stringify(req.headers));
     next();
 });
 

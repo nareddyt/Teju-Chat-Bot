@@ -1,12 +1,12 @@
 'use strict';
 
 var express = require('express');
-var log = require('./logger');
+var logger = require('./util/logger');
 
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
-    log('info', 'main');
+    logger.log('info', 'main');
     res.status(200).send('Yay!');
 });
 

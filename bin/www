@@ -6,7 +6,7 @@
  */
 var http = require('http');
 var app = require('../app');
-var log = require('../logger');
+var logger = require('../util/logger');
 
 /**
  * Get port from environment and store in Express.
@@ -60,11 +60,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            log('error', bind + ' requires elevated privileges');
+            logger.log('error', bind + ' requires elevated privileges');
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            log('error', bind + ' is already in use');
+            logger.log('error', bind + ' is already in use');
             process.exit(1);
             break;
         default:
@@ -78,5 +78,5 @@ function onError(error) {
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    log('info', 'Listening on ' + bind);
+    logger.log('info', 'Listening on ' + bind);
 }

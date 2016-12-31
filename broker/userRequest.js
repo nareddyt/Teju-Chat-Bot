@@ -14,6 +14,7 @@ function messageReceived(req, res) {
     } else {
         // sha1 headers didn't match... uh oh
 
+        logger.log('warn', 'post to broker with wrong sha1');
         res.status(403).send('You are not facebook, are you? pls stop >:(');
     }
 }

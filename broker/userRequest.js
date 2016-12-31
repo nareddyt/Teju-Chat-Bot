@@ -11,16 +11,20 @@ function messageReceived(req, res) {
     if (process.env.NODE_ENV == 'development' || req.headers['x-hub-signature'] == 'sha1=' + sha1) {
         // Authenticated!
 
-        parseJson(req, res);
+        // Everything in the request is A-ok!
+        res.sendStatus(200);
+
+        // Continue fulfilling the request
+        parseJson(req);
     } else {
-        // sha1 headers didn't match... uh oh
+        // sha1 headers didn't match in production... uh oh
 
         logger.log('warn', 'post to broker with wrong sha1');
         res.status(403).send('You are not facebook, are you? pls stop >:(');
     }
 }
 
-function parseJson(req, res) {
+function parseJson(req) {
 
     var entries = req.body.entry;
 
@@ -33,21 +37,17 @@ function parseJson(req, res) {
                     var sender_uid = messaging_events[i].sender;
                     var message = messaging_events[i].message;
 
-                    applyRateLimit(req, res, sender_uid, message);
+                    applyRateLimit(req, sender_uid, message);
                 }
             }
         }
     }
-
-    // Everything in the request is A-ok!
-    res.sendStatus(200);
 }
 
-// FIXME this only works for text currently, not any quick actions
-function applyRateLimit(req, res, uid, message) {
+function applyRateLimit(req, uid, message) {
     // TODO
 
-
+    logger.log('info', JSON.stringify(uid) + ' sent ' + JSON.stringify(message));
 }
 
 module.exports = messageReceived;

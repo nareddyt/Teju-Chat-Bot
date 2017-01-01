@@ -9,6 +9,7 @@ var helmet = require('helmet');
 var logger = require('./util/logger');
 var errorHandler = require('./util/errorHandler');
 var router = require('./router');
+var security = require('./util/security');
 
 // Create the app
 var app = express();
@@ -18,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Log all requests to the web server
 app.use(function (req, res, next) {
-    logger.log('info', req.originalUrl + ' with payload ' + JSON.stringify(req.body) + ' and headers ' + JSON.stringify(req.headers));
+    logger.log('info', req.originalUrl + ' with payload ' + security.toUnicode(JSON.stringify(req.body)) + ' and headers ' + JSON.stringify(req.headers));
     next();
 });
 

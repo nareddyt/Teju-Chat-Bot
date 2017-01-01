@@ -19,7 +19,27 @@ module.exports = {
 
         // read out hash
         return hmac.read();
+    },
+
+    toUnicode: function (theString) {
+        var unicodeString = '';
+        for (var i = 0; i < theString.length; i++) {
+
+            if (theString.charCodeAt(i) <= 127) {
+                unicodeString += theString.charAt(i);
+            } else {
+                var theUnicode = theString.charCodeAt(i).toString(16).toLowerCase();
+                while (theUnicode.length < 4) {
+                    theUnicode = '0' + theUnicode;
+                }
+                theUnicode = '\\u' + theUnicode;
+                unicodeString += theUnicode;
+            }
+        }
+        return unicodeString;
     }
 
 };
+
+
 

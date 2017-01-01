@@ -19,7 +19,7 @@ function messageReceived(req, res) {
     } else {
         // sha1 headers didn't match in production... uh oh
 
-        logger.log('warn', 'post to broker with wrong sha1');
+        logger.log('warn', 'post to broker with wrong sha1 ' + sha1);
         res.status(403).send('You are not facebook, are you? pls stop >:(');
     }
 }
@@ -37,6 +37,7 @@ function parseJson(req) {
                     var sender_uid = messaging_events[i].sender;
                     var message = messaging_events[i].message;
 
+                    // FIXME make async for each message
                     applyRateLimit(req, sender_uid, message);
                 }
             }

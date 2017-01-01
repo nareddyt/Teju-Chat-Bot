@@ -8,7 +8,6 @@ var errorHandler = require('../util/errorHandler');
 function messageReceived(req, res) {
 
     var sha1 = security.getSHA1WithAppSecret(security.toUnicode(JSON.stringify(req.body)));
-    logger.log('info', sha1);
     if (process.env.NODE_ENV == 'development' || req.headers['x-hub-signature'] == 'sha1=' + sha1) {
         // Authenticated!
 
@@ -21,9 +20,7 @@ function messageReceived(req, res) {
         // sha1 headers didn't match in production... uh oh
 
         logger.log('warn', 'post to broker with wrong sha1');
-
-        // FIXME send this 200 for now till i figure out the sha1 stuff
-        res.status(200).send('You are not facebook, are you? pls stop >:(');
+        res.status(403).send('You are not facebook, are you? pls stop >:(');
     }
 }
 

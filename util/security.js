@@ -25,7 +25,9 @@ module.exports = {
         var unicodeString = '';
         for (var i = 0; i < theString.length; i++) {
 
-            if (theString.charCodeAt(i) <= 127) {
+            if (theString.charAt(i) == '/') {
+                unicodeString += '\\/';
+            } else if (theString.charCodeAt(i) <= 127) {
                 unicodeString += theString.charAt(i);
             } else {
                 var theUnicode = theString.charCodeAt(i).toString(16).toLowerCase();

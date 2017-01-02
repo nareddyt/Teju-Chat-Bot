@@ -103,6 +103,7 @@ function checkUserExists(uid, message, result) {
         calculateRateLimit(uid, message, uidData)
     } else {
         // Async call to add the user to the DB
+        logger.log('info', 'uid=' + uid + ' is new!');
         requestTimesDb.createUser(uid, createUserCallback);
     }
 
@@ -120,21 +121,61 @@ function checkUserExists(uid, message, result) {
     }
 }
 
+/**
+ * Calculates whether the user has to be rate limited and updates the dbs.
+ */
 function calculateRateLimit(uid, message, uidData) {
-    logger.log('info', uidData);
+    // Max allowed time between max and min
+    var limitTime = 5;
 
+    // Calculate the min and max request times over the 5 period interval
+    var minTime = Math.min(uidData.time_1, uidData.time_2, uidData.time_3, uidData.time_4, uidData.time_5);
+    var maxTime = Math.max(uidData.time_1, uidData.time_2, uidData.time_3, uidData.time_4, uidData.time_5);
 
-}
+    // Do the check
+    if (maxTime - minTime < limitTime) {
 
-function enqueue(uid, message) {
-    // TODO aws sqs
+        // Apply rate limiting!
+        logger.log('warn', 'rate limiting being applied for uid=' + uid);
+        // TODO
 
-    // TODO handle non-text messages
-    if (message.text) {
-        forwardToApiAi(uid, message);
     } else {
-        logger.log('warn', 'message does not contain text, not handling it');
+
+        // Set the correct time in the db
+        var indexToUpdate;
+        if (minTime == uidData.time_1) {
+            indexToUpdate = 1;
+        } else if (minTime == uidData.time_2) {
+            indexToUpdate = 2;
+        } else if (minTime == uidData.time_3) {
+            indexToUpdate = 3;
+        } else if (minTime == uidData.time_4) {
+            indexToUpdate = 4;
+        } else {
+            indexToUpdate = 5;
+        }
+
+        requestTimesDb.updateTime(uid, indexToUpdate, time.getCurrTimeInt(), updateTimeCallback);
     }
+
+    /**
+     * Callback for when the user's request time is updated
+     */
+    function updateTimeCallback(err, result) {
+        if (err) {
+            // FIXME
+            throw err;
+        }
+
+        // Continue on with the request
+        if (message.text) {
+            forwardToApiAi(uid, message);
+        } else {
+            logger.log('warn', 'message does not contain text, not handling it');
+        }
+    }
+
+
 }
 
 function forwardToApiAi(uid, message) {

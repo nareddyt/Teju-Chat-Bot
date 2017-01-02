@@ -35,6 +35,10 @@ module.exports = {
         client.query('INSERT INTO users (uid) VALUES (' + uid + ')', callback);
     },
 
+    updateTime: function (uid, index, time, callback) {
+        client.query('UPDATE users SET time_' + index + '=' + time + ' WHERE uid=' + uid, callback);
+    },
+
     retryOnError: function (err) {
         logger.log('error', err);
         throw err;

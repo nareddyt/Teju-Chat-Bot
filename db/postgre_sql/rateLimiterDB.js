@@ -1,6 +1,7 @@
 'use strict';
 
 var pg = require('pg');
+var logger = require('../../util/logger');
 
 // Instantiate a new client
 var client;
@@ -18,6 +19,8 @@ module.exports = {
                 throw err;
             }
 
+            logger.log('info', 'postgre sql connected!');
+
             client.on('error', callbackOnError);
             client.on('end', callbackOnEnd);
         });
@@ -29,11 +32,13 @@ module.exports = {
 
     retryOnError: function (err) {
         logger.log('error', err);
+        throw err;
         // TODO
     },
 
     retryOnEnd: function (msg) {
         logger.log('error', msg);
+        throw msg;
         // TODO
     }
 };

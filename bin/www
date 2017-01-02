@@ -9,7 +9,8 @@ var app = require('../app');
 var logger = require('../util/logger');
 var dbs = require('../db/common');
 
-logger.log('info', 'running node in ' + process.env.NODE_ENV);
+// Log the starting mode
+logger.log('info', 'running node in ' + process.env.NODE_ENV + ' mode');
 
 // Set up the dbs
 dbs.setUp();

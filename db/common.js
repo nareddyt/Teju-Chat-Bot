@@ -1,6 +1,6 @@
 'use strict';
 
-var rl_db = require('./postgre/rateLimiter');
+var rl_db = require('./postgre_sql/rateLimiterDB');
 
 module.exports = {
     setUp: function () {

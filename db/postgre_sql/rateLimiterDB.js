@@ -16,6 +16,7 @@ module.exports = {
         client.connect(function (err) {
             if (err) {
                 // FIXME handler error properly
+                logger.log('error', 'error on connect!');
                 throw err;
             }
 
@@ -26,8 +27,12 @@ module.exports = {
         });
     },
 
-    getUser: function (uid) {
-        // TODO
+    getUser: function (uid, callback) {
+        client.query('SELECT * FROM users WHERE uid=' + uid + '', callback)
+    },
+
+    createUser: function (uid, callback) {
+        client.query('INSERT INTO users (uid) VALUES (' + uid + ')', callback);
     },
 
     retryOnError: function (err) {

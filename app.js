@@ -29,7 +29,7 @@ app.use('/', router);
 app.use(function urlNotFound(req, res, next) {
     var err = new Error('Specified url was not found');
     err.status = 404;
-    errorHandler.handleError(err, req, res);
+    errorHandler.handleBrokerError(err, req, res);
 });
 
 // "Catch" any errors
@@ -40,12 +40,12 @@ app.use(function (err, req, res, next) {
         logger.log('warn', err);
         clientErr = new Error('JSON format incorrect');
         clientErr.status = 400;
-        errorHandler.handleError(clientErr, req, res);
+        errorHandler.handleBrokerError(clientErr, req, res);
     } else {
         logger.log('error', err);
         clientErr = new Error('Internal Server Error :(');
         clientErr.status = 500;
-        errorHandler.handleError(clientErr, req, res);
+        errorHandler.handleBrokerError(clientErr, req, res);
     }
 });
 

@@ -4,6 +4,8 @@
 var logger = require('../util/logger');
 var security = require('../util/security');
 var errorHandler = require('../util/errorHandler');
+var time = require('../util/time');
+var rlDb = require('../db/postgre_sql/rateLimiterDB');
 
 function messageReceived(req, res) {
 
@@ -34,32 +36,70 @@ function parseJson(req) {
 
             if (messaging_events) {
                 for (var j = 0; j < messaging_events.length; j++) {
-                    var sender_uid = messaging_events[i].sender;
+                    var sender_uid = messaging_events[i].sender.id;
                     var message = messaging_events[i].message;
 
+                    logger.log('info', 'uid ' + sender_uid + ' sent ' + JSON.stringify(message));
+
                     // FIXME make async for each message
-                    applyRateLimit(req, sender_uid, message);
+                    getRl(sender_uid, message);
                 }
             }
         }
     }
 }
 
-function applyRateLimit(req, uid, message) {
-    logger.log('info', JSON.stringify(uid) + ' sent ' + JSON.stringify(message));
+function getRl(uid, message) {
+    // Get the user rate limit info
+    rlDb.getUser(uid, getRlCallback);
 
-    // TODO rate limit
+    function getRlCallback(err, result) {
+        if (err) {
+            // FIXME
+            throw err;
+        }
+
+        checkRl(uid, message, result);
+    }
+
+
+}
+
+function checkRl(uid, message, result) {
+
+    var uidData = result.rows[0];
+    if (uidData) {
+        applyRl(uid, message, uidData)
+    } else {
+        rlDb.createUser(uid, checkRlCallback);
+    }
+
+    function checkRlCallback(err, result) {
+        if (err) {
+            // FIXME
+            throw err;
+        }
+
+        getRl(uid, message);
+    }
+}
+
+function applyRl(uid, message, uidData) {
+    logger.log('info', uidData);
+}
+
+function enqueue(uid, message) {
     // TODO aws sqs
 
     // TODO handle non-text messages
     if (message.text) {
-        forwardToApiAi(req, uid, message);
+        forwardToApiAi(uid, message);
     } else {
         logger.log('warn', 'message does not contain text, not handling it');
     }
 }
 
-function forwardToApiAi(req, uid, message) {
+function forwardToApiAi(uid, message) {
     // TODO
 }
 

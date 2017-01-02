@@ -6,10 +6,10 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.15.2",
-    "express": "~4.14.0",
-    "winston": "latest",
+    "pg": "latest",
+    "express": "latest",
+    "body-parser": "latest",
     "helmet": "latest",
-    "pg": "latest"
+    "winston": "latest"
   }
 }

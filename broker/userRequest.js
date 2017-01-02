@@ -86,6 +86,8 @@ function checkRl(uid, message, result) {
 
 function applyRl(uid, message, uidData) {
     logger.log('info', uidData);
+
+    logger.log('info', time.getCurrTimeInt());
 }
 
 function enqueue(uid, message) {

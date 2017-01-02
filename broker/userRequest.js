@@ -46,9 +46,21 @@ function parseJson(req) {
 }
 
 function applyRateLimit(req, uid, message) {
-    // TODO
-
     logger.log('info', JSON.stringify(uid) + ' sent ' + JSON.stringify(message));
+
+    // TODO rate limit
+    // TODO aws sqs
+
+    // TODO handle non-text messages
+    if (message.text) {
+        forwardToApiAi(req, uid, message);
+    } else {
+        logger.log('warn', 'message does not contain text, not handling it');
+    }
+}
+
+function forwardToApiAi(req, uid, message) {
+    // TODO
 }
 
 module.exports = messageReceived;

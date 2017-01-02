@@ -7,8 +7,12 @@
 var http = require('http');
 var app = require('../app');
 var logger = require('../util/logger');
+var dbs = require('../db/common');
 
 logger.log('info', 'running node in ' + process.env.NODE_ENV);
+
+// Set up the dbs
+dbs.setUp();
 
 /**
  * Get port from environment and store in Express.

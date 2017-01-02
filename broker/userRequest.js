@@ -126,7 +126,7 @@ function checkUserExists(uid, message, result) {
  */
 function calculateRateLimit(uid, message, uidData) {
     // Max allowed time between max and min
-    var limitTime = 5;
+    var limitTime = process.env.MAX_TIME_FOR_RATE_LIMIT;
 
     // Calculate the min and max request times over the 5 period interval
     var minTime = Math.min(uidData.time_1, uidData.time_2, uidData.time_3, uidData.time_4, uidData.time_5);
@@ -137,7 +137,7 @@ function calculateRateLimit(uid, message, uidData) {
 
         // Apply rate limiting!
         logger.log('warn', 'rate limiting being applied for uid=' + uid);
-        // TODO
+        // TODO. Basic denial of service currently
 
     } else {
 

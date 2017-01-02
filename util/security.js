@@ -1,26 +1,36 @@
 'use strict';
 
+// File that contains functions needed to upkeep security of the service
+
+// Npm dependency
 var crypto = require('crypto');
 
 module.exports = {
 
-    getSHA1WithAppSecret: function (body) {
-        // Set up for sha1 hashing using the fb app secret as the key
+    /**
+     * Calculates the sha1 hash of the text, using the db app secret as the key
+     */
+    getSHA1WithAppSecret: function (text) {
+        // Set up
         var key = process.env.FB_APP_SECRET;
         var algorithm = 'sha1';
         var hmac = crypto.createHmac(algorithm, key);
         hmac.setEncoding('hex');
 
-        // write in the text that you want the hmac digest for
-        hmac.write(body);
+        // Write in the text that you want the hmac digest for
+        hmac.write(text);
 
-        // you can't read from the stream until you call end()
+        // You can't read from the stream until you call end()
         hmac.end();
 
-        // read out hash
+        // Read out hash
         return hmac.read();
     },
 
+    /**
+     * Convert non-ascii characters to lowercase escaped unicode representation.
+     * Note: All forward-slashes are escaped with a backslash
+     */
     toUnicode: function (theString) {
         var unicodeString = '';
         for (var i = 0; i < theString.length; i++) {

@@ -1,10 +1,10 @@
 'use strict';
 
-var rlDb = require('./postgre_sql/rateLimiterDB');
+var requestTimesDb = require('./postgre_sql/requestTimes');
 
 module.exports = {
     setUp: function () {
-        rlDb.setUp(rlDb.retryOnError, rlDb.retryOnEnd);
+        requestTimesDb.setUp(requestTimesDb.retryOnError, requestTimesDb.retryOnEnd);
         // TODO the other db
     }
 };

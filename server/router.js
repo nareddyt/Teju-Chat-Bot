@@ -1,11 +1,13 @@
 'use strict';
 
+// This file contains HTTP routes
+
 // NPM dependencies
 var express = require('express');
 
 // My js dependencies
-var verifyFbWebhook = require('./broker/verifyWebhook');
-var handleUserMessage = require('./broker/userRequest');
+var verifyFbWebhook = require('./../broker/verifyWebhook');
+var handleUserMessage = require('./../broker/userRequest');
 
 // Set up the router
 var router = express.Router();

@@ -11,6 +11,7 @@
     "helmet": "latest",
     "moment": "latest",
     "pg": "latest",
-    "winston": "latest"
+    "winston": "latest",
+    "apiai": "latest"
   }
 }

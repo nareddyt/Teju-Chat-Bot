@@ -8,6 +8,7 @@ var security = require('../util/security');
 var errorHandler = require('../util/errorHandler');
 var time = require('../util/time');
 var requestTimesDb = require('../db/postgre_sql/requestTimes');
+var apiAi = require('../util/apiAi');
 
 
 /**
@@ -55,8 +56,6 @@ function parseJson(req) {
                     // Retrieve the required values from the payload
                     var sender_uid = messaging_events[i].sender.id;
                     var message = messaging_events[i].message;
-
-                    logger.log('info', 'uid ' + sender_uid + ' sent ' + JSON.stringify(message));
 
                     // FIXME make async for each message
                     // Continue by sending to the Rate Limiter
@@ -169,17 +168,24 @@ function calculateRateLimit(uid, message, uidData) {
 
         // Continue on with the request
         if (message.text) {
-            forwardToApiAi(uid, message);
+            forwardToApiAi(uid, message.text);
         } else {
             logger.log('warn', 'message does not contain text, not handling it');
+            // TODO stickers
+            // TODO emojis?
+            // TODO WELCOME event
         }
     }
-
-
 }
 
 function forwardToApiAi(uid, message) {
-    // TODO
+    apiAi.sendText(message, uid, onApiAiResponse);
+
+    function onApiAiResponse(response) {
+        var responseText = response.result.fulfillment.speech;
+        logger.log('info', 'api.ai response: ' + responseText);
+        // TODO
+    }
 }
 
 module.exports = messageReceived;

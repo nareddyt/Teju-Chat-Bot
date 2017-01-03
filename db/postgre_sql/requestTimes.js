@@ -37,17 +37,5 @@ module.exports = {
 
     updateTime: function (uid, index, time, callback) {
         client.query('UPDATE users SET time_' + index + '=' + time + ' WHERE uid=' + uid, callback);
-    },
-
-    retryOnError: function (err) {
-        logger.log('error', err);
-        throw err;
-        // TODO
-    },
-
-    retryOnEnd: function (msg) {
-        logger.log('error', msg);
-        throw msg;
-        // TODO
     }
 };

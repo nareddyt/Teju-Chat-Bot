@@ -9,6 +9,7 @@ var errorHandler = require('../util/errorHandler');
 var time = require('../util/time');
 var requestTimesDb = require('../db/postgre_sql/requestTimes');
 var apiAi = require('../util/apiAi');
+var fbMessenger = require('../util/fbMessenger');
 
 
 /**
@@ -167,25 +168,43 @@ function calculateRateLimit(uid, message, uidData) {
         }
 
         // Continue on with the request
-        if (message.text) {
-            forwardToApiAi(uid, message.text);
-        } else {
-            logger.log('warn', 'message does not contain text, not handling it');
-            // TODO stickers
-            // TODO emojis?
-            // TODO WELCOME event
-        }
+        forwardToApiAi(uid, message);
+
+
     }
 }
 
+/**
+ * Forwards the messages to api.ai based on the message type.
+ */
 function forwardToApiAi(uid, message) {
-    apiAi.sendText(message, uid, onApiAiResponse);
 
-    function onApiAiResponse(response) {
-        var responseText = response.result.fulfillment.speech;
-        logger.log('info', 'api.ai response: ' + responseText);
-        // TODO
+    if (message.text) {
+        apiAi.sendText(message.text, uid, onApiAiResponse, onApiAiError);
+    } else {
+        logger.log('warn', 'message does not contain text, not handling it');
+        // TODO stickers
+        // TODO emojis?
+        // TODO WELCOME event
     }
+
+    /**
+     * Callback for when api.ai responds with a text message to send back to the user
+     */
+    function onApiAiResponse(response) {
+        // Send that message to the user!
+        fbMessenger.sendTextMessage(uid, response.result.fulfillment.speech);
+    }
+
+    /**
+     * Callback for when api.ai responds with an error (it might be down)
+     */
+    function onApiAiError(error) {
+        // Notify the user
+        logger.log('error', error);
+        fbMessenger.sendTextMessage(uid, 'Uh oh. Seems like the language processing service is down right now... Try again later');
+    }
+
 }
 
 module.exports = messageReceived;

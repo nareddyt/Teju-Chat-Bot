@@ -6,12 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "apiai": "latest",
     "body-parser": "latest",
     "express": "latest",
     "helmet": "latest",
     "moment": "latest",
     "pg": "latest",
-    "winston": "latest",
-    "apiai": "latest"
+    "request": "^2.79.0",
+    "winston": "latest"
   }
 }

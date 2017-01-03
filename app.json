@@ -1,0 +1,50 @@
+{
+  "name": "TejuBot",
+  "description": "A personal assistant chatbot facebook messenger.",
+  "repository": "https://github.com/nareddyt/Teju-Chat-Bot",
+  "env": {
+    "API_AI_TOKEN": {
+      "description": "The api.ai client token for the bot.",
+      "value": "enter in a value",
+      "required": "true"
+    },
+    "DATABASE_URL": {
+      "description": "The heroku postgresql database used for rate limiting.",
+      "value": "enter in a value"
+    },
+    "FB_APP_SECRET": {
+      "description": "The facebook developer app secret.",
+      "value": "enter in a value",
+      "required": "true"
+    },
+    "FB_PAGE_ACCESS_TOKEN": {
+      "description": "The facebook developer page access token.",
+      "value": "enter in a value",
+      "required": "true"
+    },
+    "FB_VERIFY_TOKEN": {
+      "description": "The verify token used to verify the facebook broker webhook.",
+      "generator": "secret",
+      "required": "true"
+    },
+    "MAX_TIME_FOR_RATE_LIMIT": {
+      "description": "The threshold for when rate limiting is applied.",
+      "value": "10",
+      "required": "true"
+    },
+    "NODE_ENV": {
+      "description": "The environment to run node in. Either development or production.",
+      "value": "production",
+      "required": "true"
+    }
+  },
+  "image": "heroku/nodejs",
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

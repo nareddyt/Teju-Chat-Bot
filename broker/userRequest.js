@@ -137,6 +137,7 @@ function calculateRateLimit(uid, message, uidData) {
 
         // Apply rate limiting!
         logger.log('warn', 'rate limiting being applied for uid=' + uid);
+        fbMessenger.sendTextMessage(uid, "Because you're spamming, I will not answer you anymore. Sorry :(");
         // TODO. Basic denial of service currently
 
     } else {

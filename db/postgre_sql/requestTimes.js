@@ -3,7 +3,7 @@
 var pg = require('pg');
 var logger = require('../../util/logger');
 
-// Instantiate a new client
+// Instantiate a new client based on if it's being run locally or on heroku (kinda hacky)
 var client;
 if (process.env.DATABASE_URL) {
     client = new pg.Client(process.env.DATABASE_URL);
@@ -12,15 +12,10 @@ if (process.env.DATABASE_URL) {
 }
 
 module.exports = {
-    setUp: function (callbackOnError, callbackOnEnd) {
-        client.connect(function (err) {
-            if (err) {
-                // FIXME handler error properly
-                logger.log('error', 'error on connect!');
-                throw err;
-            }
 
-            logger.log('info', 'postgre sql connected!');
+    setUp: function (callback, callbackOnError, callbackOnEnd) {
+        client.connect(function (err) {
+            callback(err);
 
             client.on('error', callbackOnError);
             client.on('end', callbackOnEnd);

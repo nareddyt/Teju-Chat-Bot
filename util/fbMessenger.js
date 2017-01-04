@@ -5,12 +5,15 @@
 // Npm dependencies
 var https = require('https');
 
+// My js dependencies
+var logger = require('./logger');
+
 module.exports = {
 
     /**
      * Sends a text message to the user through facebook messenger.
      */
-    sendTextMessage: function (uid, message) {
+    sendTextMessage: function (uid, message, callbackOnError) {
         // Create the json body
         var body = '{"recipient": {"id": "' + uid + '"},"message": {"text": "' + message + '"}}';
 
@@ -28,6 +31,13 @@ module.exports = {
 
         // Make the request
         var request = new https.request(options);
+
+        // Set up the error handler
+        request.on('error', function (err) {
+            // Log the error. Nothing we can really do about it...
+            logger.log('error', 'facebook messenger seems to be down right now');
+            logger.log('error', err);
+        });
 
         // Post the body
         request.end(body)

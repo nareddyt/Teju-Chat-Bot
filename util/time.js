@@ -6,6 +6,7 @@
 var moment = require('moment');
 
 module.exports = {
+
     /**
      * Standardized timestamp being used across the service.
      */

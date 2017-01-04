@@ -31,7 +31,7 @@ app.use('/', router);
 app.use(function urlNotFound(req, res, next) {
     var err = new Error('Specified url was not found');
     err.status = 404;
-    errorHandler.sendErrorRes(err, req, res);
+    errorHandler.sendErrorResponse(err, req, res);
 });
 
 // "Catch" any errors
@@ -45,7 +45,7 @@ app.use(function (err, req, res, next) {
         // Forward to the error handler
         clientErr = new Error('JSON format incorrect');
         clientErr.status = 400;
-        errorHandler.sendErrorRes(clientErr, req, res);
+        errorHandler.sendErrorResponse(clientErr, req, res);
     }
 
     // FIXME we don't know what the error is yet

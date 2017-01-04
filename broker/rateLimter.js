@@ -1,5 +1,7 @@
 'use strict';
 
+// File that contains functionalities of the rate limiter
+
 // My js dependencies
 var logger = require('../util/logger');
 var time = require('../util/time');

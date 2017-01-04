@@ -1,5 +1,7 @@
 'use strict';
 
+// Used to process a request for natural language
+
 // My js dependencies
 var logger = require('../util/logger');
 var apiAi = require('../util/apiAi');

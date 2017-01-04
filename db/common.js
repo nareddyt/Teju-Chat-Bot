@@ -7,7 +7,6 @@ var rateLimiter = require('../broker/rateLimter');
 module.exports = {
     setUp: function () {
         requestTimesDb.setUp(callback, onError, onEnd);
-        // TODO the other db
 
         function callback(err) {
             if (err) {
@@ -31,5 +30,7 @@ module.exports = {
             logger.log('error', 'postgresql was disconnected');
             rateLimiter.enabled = false;
         }
+
+        // TODO the other db
     }
 };

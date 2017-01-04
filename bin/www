@@ -4,6 +4,7 @@
 // This file is the entry point of the web service
 
 // Npm dependencies
+require('newrelic');
 var http = require('http');
 
 // My js dependencies

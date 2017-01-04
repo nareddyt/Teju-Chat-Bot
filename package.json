@@ -11,6 +11,7 @@
     "express": "latest",
     "helmet": "latest",
     "moment": "latest",
+    "newrelic": "^1.36.0",
     "pg": "latest",
     "request": "^2.79.0",
     "winston": "latest"

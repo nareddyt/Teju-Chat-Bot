@@ -41,7 +41,7 @@ function getUserRequests(uid, message) {
      */
     function getUserCallback(err, result) {
         if (err) {
-            // FIXME
+            // FIXME error
             throw err;
         }
 
@@ -74,7 +74,7 @@ function checkUserExists(uid, message, result) {
      */
     function createUserCallback(err, result) {
         if (err) {
-            // FIXME
+            // FIXME error
             throw err;
         }
 
@@ -126,7 +126,7 @@ function calculateRateLimit(uid, message, uidData) {
      */
     function updateTimeCallback(err, result) {
         if (err) {
-            // FIXME
+            // FIXME error
             throw err;
         }
 

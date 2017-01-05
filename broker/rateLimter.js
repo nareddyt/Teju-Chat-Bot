@@ -11,9 +11,10 @@ var nlp = require('./nlp');
 
 module.exports = {
     /**
-     * If enabled, then the rate limiter will be used
+     * If enabled, then the rate limiter will be used.
+     * This corresponds to the dbs being error-free.
      */
-    enabled: true,
+    enabled: false,
 
     /**
      * Uses the rate limiter only if it is enabled.
@@ -43,14 +44,14 @@ function getUserRequests(uid, message) {
      */
     function getUserCallback(err, result) {
         if (err) {
-            // FIXME error
-            throw err;
+            logger.log('error', err);
+            this.enabled = false;
+            nlp(uid, message);
+        } else {
+            // Forward to the next function
+            checkUserExists(uid, message, result);
         }
-
-        // Forward to the next function
-        checkUserExists(uid, message, result);
     }
-
 
 }
 
@@ -76,13 +77,15 @@ function checkUserExists(uid, message, result) {
      */
     function createUserCallback(err, result) {
         if (err) {
-            // FIXME error
-            throw err;
+            logger.log('error', err);
+            this.enabled = false;
+            nlp(uid, message);
+        } else {
+            // Go back and query the DB for the default values of the user we just added
+            getUserRequests(uid, message);
         }
-
-        // Go back and query the DB for the default values of the user we just added
-        getUserRequests(uid, message);
     }
+
 }
 
 /**
@@ -128,11 +131,13 @@ function calculateRateLimit(uid, message, uidData) {
      */
     function updateTimeCallback(err, result) {
         if (err) {
-            // FIXME error
-            throw err;
+            logger.log('error', err);
+            this.enabled = false;
+            nlp(uid, message);
+        } else {
+            // Continue on with the request
+            nlp(uid, message);
         }
-
-        // Continue on with the request
-        nlp(uid, message);
     }
+
 }

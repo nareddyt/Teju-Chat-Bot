@@ -11,12 +11,16 @@ var http = require('http');
 var app = require('../server/app');
 var logger = require('../util/logger');
 var dbs = require('../db/common');
+var scheduler = require('../server/scheduler');
 
 // Log the environment mode that node is in
 logger.log('info', 'running node in ' + process.env.NODE_ENV + ' mode');
 
 // Set up the backend dbs used by the web server
-dbs.setUp();
+dbs.setUpPostgre();
+
+// Set up the scheduler
+scheduler();
 
 // Set up the port
 var port = normalizePort(process.env.PORT || '5000');

@@ -1,6 +1,6 @@
 'use strict';
 
-// Used to process a request for natural language
+// Used to process a request in natural language
 
 // My js dependencies
 var logger = require('../util/logger');

@@ -17,7 +17,12 @@ var scheduler = require('../server/scheduler');
 logger.log('info', 'running node in ' + process.env.NODE_ENV + ' mode');
 
 // Set up the backend dbs used by the web server
-dbs.setUpPostgre();
+// NOTE: Do not set up the postgresql db. Let the schedule do that at a later time.
+// This prevents unwanted rate limiting at application startup due to a burst of queued facebook data
+// TODO dynamo db
+
+// DEBUG
+// dbs.setUpPostgre();
 
 // Set up the scheduler
 scheduler();

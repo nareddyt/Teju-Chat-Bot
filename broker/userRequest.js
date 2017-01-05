@@ -1,6 +1,9 @@
 'use strict';
 
-// This file handles user messages from messenger to api.ai
+// This file handles receiving messages from fb messenger
+
+// Npm dependencies
+var validator = require('validator');
 
 // My js dependencies
 var logger = require('../util/logger');
@@ -54,9 +57,13 @@ function parseJson(req) {
                     var sender_uid = messaging_events[i].sender.id;
                     var message = messaging_events[i].message;
 
-                    // FIXME make async for each message
-                    // Continue by sending to the Rate Limiter
-                    rateLimiter.useRateLimiting(sender_uid, message);
+                    if (validator.isNumeric(sender_uid)) {
+                        // FIXME make async for each message
+                        // Continue by sending to the Rate Limiter
+                        rateLimiter.useRateLimiting(sender_uid, message);
+                    } else {
+                        logger.log('warn', 'validator failed: ' + req);
+                    }
                 }
             }
         }

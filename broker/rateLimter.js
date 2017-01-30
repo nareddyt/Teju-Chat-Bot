@@ -20,12 +20,15 @@ module.exports = {
      * Uses the rate limiter only if it is enabled.
      */
     useRateLimiting: function (uid, message) {
-        if (this.enabled) {
+        // DEBUG disabled rate limiter for now
+
+        // if (this.enabled) {
+        if (false) {
             // Use the rate limiter
             getUserRequests(uid, message);
         } else {
             // Continue on with the request
-            logger.log('warn', 'not using rate limiting');
+            // logger.log('warn', 'not using rate limiting');
             nlp(uid, message);
         }
     }

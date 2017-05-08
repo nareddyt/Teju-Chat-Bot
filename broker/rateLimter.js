@@ -11,19 +11,17 @@ var nlp = require('./nlp');
 
 module.exports = {
     /**
-     * If enabled, then the rate limiter will be used.
-     * This corresponds to the dbs being error-free.
+     * If connected to the db, the rate limiter will be used.
      */
-    enabled: false,
+    dbConnected: false,
 
     /**
-     * Uses the rate limiter only if it is enabled.
+     * Uses the rate limiter only if it is dbConnected.
      */
     useRateLimiting: function (uid, message) {
-        // DEBUG disabled rate limiter for now
 
-        // if (this.enabled) {
-        if (false) {
+        // DEBUG this is where you can enable/disable the rate limiter permanently
+        if (this.dbConnected) {
             // Use the rate limiter
             getUserRequests(uid, message);
         } else {
@@ -48,7 +46,7 @@ function getUserRequests(uid, message) {
     function getUserCallback(err, result) {
         if (err) {
             logger.log('error', err);
-            this.enabled = false;
+            this.dbConnected = false;
             nlp(uid, message);
         } else {
             // Forward to the next function
@@ -81,7 +79,7 @@ function checkUserExists(uid, message, result) {
     function createUserCallback(err, result) {
         if (err) {
             logger.log('error', err);
-            this.enabled = false;
+            this.dbConnected = false;
             nlp(uid, message);
         } else {
             // Go back and query the DB for the default values of the user we just added
@@ -135,7 +133,7 @@ function calculateRateLimit(uid, message, uidData) {
     function updateTimeCallback(err, result) {
         if (err) {
             logger.log('error', err);
-            this.enabled = false;
+            this.dbConnected = false;
             nlp(uid, message);
         } else {
             // Continue on with the request

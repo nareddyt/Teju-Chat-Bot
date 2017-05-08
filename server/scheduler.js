@@ -10,7 +10,7 @@ var dbs = require('../db/common');
  */
 function setup() {
     // Attempt to connect with the postgre db every 5 minutes
-    setInterval(dbs.setUpPostgre, 1000 * 60 * 5);
+    setInterval(dbs.setUpPostgre, 1000 * 5);
 }
 
 module.exports = setup;

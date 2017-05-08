@@ -8,7 +8,7 @@ module.exports = {
     setUpPostgre: function () {
 
         // Only try to connect if the rate limiter is disabled, meaning there was an error connecting
-        if (!rateLimiter.enabled) {
+        if (!rateLimiter.dbConnected) {
             requestTimesDb.setUp(callback, onError, onEnd);
         } else {
             logger.log('info', 'postgresql already connected!')
@@ -22,10 +22,10 @@ module.exports = {
                 // Error accessing the db. Skip out on rate limiting
                 logger.log('error', 'error on connect! skipping rate limiting :(');
                 logger.log('error', err);
-                rateLimiter.enabled = false;
+                rateLimiter.dbConnected = false;
             } else {
                 logger.log('info', 'postgresql connected');
-                rateLimiter.enabled = true;
+                rateLimiter.dbConnected = true;
             }
         }
 
@@ -35,7 +35,7 @@ module.exports = {
         function onError(err) {
             logger.log('error', 'error');
             logger.log('error', err);
-            rateLimiter.enabled = false;
+            rateLimiter.dbConnected = false;
         }
 
         /**
@@ -43,7 +43,7 @@ module.exports = {
          */
         function onEnd() {
             logger.log('error', 'postgresql was disconnected');
-            rateLimiter.enabled = false;
+            rateLimiter.dbConnected = false;
         }
     }
 };

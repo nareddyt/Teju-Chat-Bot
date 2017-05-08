@@ -36,7 +36,7 @@ function forwardToApiAi(uid, message) {
         // Notify the user
         logger.log('error', 'api.ai seems to be down right now');
         logger.log('error', error);
-        fbMessenger.sendTextMessage(uid, 'Uh oh. Seems like the language processing service is down right now... Try again later');
+        fbMessenger.sendTextMessage(uid, 'My bad, I could not process your message :O');
     }
 
 }

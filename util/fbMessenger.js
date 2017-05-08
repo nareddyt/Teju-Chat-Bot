@@ -13,10 +13,11 @@ module.exports = {
     /**
      * Sends a text message to the user through facebook messenger.
      */
-    sendTextMessage: function (uid, message, callbackOnError) {
+    sendTextMessage: function (uid, message) {
         // Create the json body
         if (message === null || !message) {
-            message = "My bad, I could not process your speech :O";
+            logger.log('error', 'empty message from api.ai');
+            message = "My bad, I could not process your message :O";
         }
         var body = '{"recipient": {"id": "' + uid + '"},"message": {"text": "' + message + '"}}';
 

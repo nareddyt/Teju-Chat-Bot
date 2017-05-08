@@ -21,8 +21,8 @@ logger.log('info', 'running node in ' + process.env.NODE_ENV + ' mode');
 // This prevents unwanted rate limiting at application startup due to a burst of queued facebook data
 // TODO dynamo db
 
-// DEBUG
-// dbs.setUpPostgre();
+// Try to connect to the dbs
+dbs.setUpPostgre();
 
 // Set up the scheduler
 scheduler();

@@ -15,6 +15,9 @@ module.exports = {
      */
     sendTextMessage: function (uid, message, callbackOnError) {
         // Create the json body
+        if (message === null || !message) {
+            message = "My bad, I could not process your speech :O";
+        }
         var body = '{"recipient": {"id": "' + uid + '"},"message": {"text": "' + message + '"}}';
 
         // Set up the POST data

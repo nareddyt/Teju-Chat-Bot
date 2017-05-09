@@ -9,8 +9,8 @@ var dbs = require('../db/common');
  * Sets up all the functions to be scheduled.
  */
 function setup() {
-    // Attempt to connect with the postgre db every 5 minutes
-    setInterval(dbs.setUpPostgre, 1000 * 60 * 5);
+    // Attempt to connect with the postgre db every '5' minutes
+    setInterval(dbs.setUpPostgre, process.env.POSTGRES_RECONNECT_TIME_MS);
 }
 
 module.exports = setup;

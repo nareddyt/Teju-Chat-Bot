@@ -15,10 +15,11 @@ function forwardToApiAi(uid, message) {
     if (message.text) {
         apiAi.sendText(message.text, uid, onApiAiResponse, onApiAiError);
     } else {
-        logger.log('warn', 'message does not contain text, not handling it');
         // TODO stickers
         // TODO emojis?
         // TODO WELCOME event
+        logger.log('warn', 'message does not contain text, not handling it');
+        fbMessenger.sendTextMessage(uid, 'Sorry, I can only handle text messages :(');
     }
 
     /**
@@ -36,7 +37,7 @@ function forwardToApiAi(uid, message) {
         // Notify the user
         logger.log('error', 'api.ai seems to be down right now');
         logger.log('error', error);
-        fbMessenger.sendTextMessage(uid, 'My bad, I could not process your message :O');
+        fbMessenger.sendTextMessage(uid, 'My bad, it seems like something is down :O');
     }
 
 }

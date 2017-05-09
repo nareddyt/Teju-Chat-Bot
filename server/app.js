@@ -48,7 +48,7 @@ app.use(function (err, req, res, next) {
         errorHandler.sendErrorResponse(clientErr, req, res);
     }
 
-    // FIXME we i figure out what error this could be
+    // FIXME figure out what error this could be
     logger.log('info', 'router detected an error!');
     throw err;
 });

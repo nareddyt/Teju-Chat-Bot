@@ -9,6 +9,7 @@ var express = require('express');
 var verifyFbWebhook = require('./../broker/verifyWebhook');
 var handleUserMessage = require('./../broker/userRequest');
 var handlePing = require('../ping/ping');
+var handleWebhook = require('../fulfillment/apiAiWebhook');
 
 // Set up the router
 var router = express.Router();
@@ -21,5 +22,8 @@ router.post('/broker', handleUserMessage);
 
 // Handles pings
 router.get('/ping', handlePing);
+
+// Handle api.ai webhook
+router.post('/fulfillment', handleWebhook);
 
 module.exports = router;

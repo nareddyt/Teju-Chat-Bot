@@ -24,6 +24,6 @@ router.post('/broker', handleUserMessage);
 router.get('/ping', handlePing);
 
 // Handle api.ai webhook
-router.post('/fulfillment', handleWebhook);
+router.post('/fulfillment', handleWebhook.auth, handleWebhook.fulfill);
 
 module.exports = router;

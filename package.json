@@ -15,6 +15,7 @@
     "pg": "latest",
     "request": "^2.79.0",
     "validator": "^6.2.0",
-    "winston": "latest"
+    "winston": "latest",
+    "basic-auth": "latest"
   }
 }

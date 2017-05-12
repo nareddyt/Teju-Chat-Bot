@@ -38,11 +38,11 @@ module.exports = {
      */
     sendFulfillmentResponse: function (res, speech, displayText, data, contextOut, followupEvent) {
         var json = {};
-        json['speech'] = speech;
-        json['displayText'] = displayText;
-        json['data'] = data;
-        json['contextOut'] = contextOut;
-        json['source'] = 'Teju-Bot fulfillment service';
+        // json['speech'] = speech;
+        // json['displayText'] = displayText;
+        // json['data'] = data;
+        // json['contextOut'] = contextOut;
+        // json['source'] = 'Teju-Bot fulfillment service';
 
         if (followupEvent) {
             var event = {};
@@ -50,7 +50,7 @@ module.exports = {
             json['followupEvent'] = event;
         }
 
-        res.status(200).send(json);
+        res.json(json);
     }
 
 };

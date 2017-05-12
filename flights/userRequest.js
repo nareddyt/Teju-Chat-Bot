@@ -26,7 +26,8 @@ module.exports = {
         // TODO check if airport code is actually valid
         if (airportCodes.length === 1) {
             // Found an airport code! Perfect data
-            displayText = 'Got it! Can you confirm if this is correct'
+            displayText = 'Got it! Can you confirm if this is correct';
+            followupEvent = 'correct-airport';
         } else {
             // Incorrect airport code, looks like we need to ask the user to redo
             displayText = 'That is not a valid airport code. Please enter the 3 letter word (eg: ATL)';

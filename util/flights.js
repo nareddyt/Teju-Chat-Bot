@@ -12,10 +12,21 @@ module.exports = {
      */
     findAirportCode: function (text) {
         if (text.length < 3) {
-            return '';
+            return [];
+        } else if (text.length === 3 || text.length === 4) {
+            var index = text.search('([a-z]|[A-Z])\\w\\w');
+            if (index !== 0) {
+                return [text.substring(index, index + 3)];
+            }
+            return [];
         }
 
         var matches = [];
+        var end = text.substring(text.length - 4, text.length);
+        if (end.search('\\s([a-z]|[A-Z])\\w\\w') === 0) {
+            matches.push(end);
+        }
+
         for (var i = 0; i < text.length - 5; i++) {
             var current = text.substring(i, i + 5);
 

@@ -15,23 +15,34 @@ module.exports = {
     check: function (result, res) {
         // TODO
 
-        if (!result.depart_airport) {
+        if (!result.parameters.depart_airport) {
             // No airport code was mentioned, try to find it
             var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
 
             if (airportCodes.length === 1) {
-                // TODO found an airport code! Change the context
-            } else {
-                // No single matching airport code found. No changes to the context
-                var speech = '';
-                var displayText = 'Test';
-                var data = '';
-                var contextOut = result.contexts;
-                var followupEvent = '';
+                // Found an airport code! Change the context
+                var code = airportCodes[0];
+                result.parameters.depart_airport = code;
 
-                apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
+                for (var i = 0; i < result.contexts.length; i++) {
+                    var context = result.contexts[i];
+                    context.parameters.depart_airport = code;
+                    context.parameters['depart_airport.original'] = code;
+                }
             }
+
+            // Send the response back with the context (might be changed above!)
+            var speech = '';
+            var displayText = 'Test';
+            var data = '';
+            var contextOut = result.contexts;
+            var followupEvent = '';
+
+            apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
+
         }
+
+
     },
 
     /**

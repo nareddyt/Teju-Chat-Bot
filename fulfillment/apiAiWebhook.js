@@ -10,6 +10,9 @@ var logger = require('../util/logger');
 var flightRequest = require('../flights/userRequest');
 
 module.exports = {
+    /**
+     * Checks for basic authentication on request from api.ai
+     */
     auth: function (req, res, next) {
 
         function unauthorized(res) {
@@ -30,6 +33,9 @@ module.exports = {
         }
     },
 
+    /**
+     * If basic auth passes, fulfills the request.
+     */
     fulfill: function (req, res) {
         var result = req.body.result;
         var action = result.action;

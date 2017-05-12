@@ -5,6 +5,7 @@
 // My js dependencies
 var logger = require('../util/logger');
 var flightUtils = require('../util/flights');
+var apiAiUtils = require('../util/apiAi');
 
 module.exports = {
 
@@ -21,7 +22,14 @@ module.exports = {
             if (airportCodes.length === 1) {
                 // TODO found an airport code! Change the context
             } else {
-                // TODO no changes to the context
+                // No single matching airport code found. No changes to the context
+                var speech = '';
+                var displayText = 'Test';
+                var data = '';
+                var contextOut = result.contexts;
+                var followupEvent = '';
+
+                apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
             }
         }
     },

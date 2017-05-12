@@ -20,29 +20,27 @@ module.exports = {
         var contextOut = result.contexts;
         var followupEvent = '';
 
-        if (!result.parameters.depart_airport) {
-            // No airport code was mentioned, try to find it
-            var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
+        // Try to find an airport code
+        var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
 
-            if (airportCodes.length === 1) {
-                // Found an airport code! Change the context
-                // TODO check if airport code is actually valid
+        if (airportCodes.length === 1) {
+            // Found an airport code! Change the context
+            // TODO check if airport code is actually valid
 
-                var code = airportCodes[0].toUpperCase();
-                result.parameters.depart_airport = code;
+            var code = airportCodes[0].toUpperCase();
+            result.parameters.depart_airport = code;
 
-                for (var i = 0; i < result.contexts.length; i++) {
-                    var context = result.contexts[i];
+            for (var i = 0; i < result.contexts.length; i++) {
+                var context = result.contexts[i];
 
-                    if (context.name === 'remember-flight') {
-                        var newContext = JSON.parse(JSON.stringify(context));
+                if (context.name === 'remember-flight') {
+                    var newContext = JSON.parse(JSON.stringify(context));
 
-                        newContext.name = 'remember-flight-checked';
-                        newContext.parameters.depart_airport = code;
-                        newContext.parameters['depart_airport.original'] = code;
+                    newContext.name = 'remember-flight-checked';
+                    newContext.parameters.depart_airport = code;
+                    newContext.parameters['depart_airport.original'] = code;
 
-                        contextOut.push(newContext);
-                    }
+                    contextOut.push(newContext);
                 }
             }
         }

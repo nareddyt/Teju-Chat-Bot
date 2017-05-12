@@ -46,6 +46,7 @@ module.exports = {
             flightRequest.set(result, res);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
+            res.sendStatus(200);
         }
     }
 };

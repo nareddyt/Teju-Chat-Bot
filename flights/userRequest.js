@@ -13,7 +13,6 @@ module.exports = {
      * Performs the necessary actions for a check flight request from api.ai.
      */
     check: function (result, res) {
-        // TODO
 
         if (!result.parameters.depart_airport) {
             // No airport code was mentioned, try to find it
@@ -21,6 +20,8 @@ module.exports = {
 
             if (airportCodes.length === 1) {
                 // Found an airport code! Change the context
+                // TODO check if airport code is actually valid
+
                 var code = airportCodes[0];
                 result.parameters.depart_airport = code;
 
@@ -30,19 +31,18 @@ module.exports = {
                     context.parameters['depart_airport.original'] = code;
                 }
             }
-
-            // Send the response back with the context (might be changed above!)
-            var speech = '';
-            var displayText = 'Test';
-            var data = '';
-            var contextOut = result.contexts;
-            var followupEvent = '';
-
-            apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
-
         }
 
+        // TODO check if airline is supported
 
+        // Send the response back with the context (might be changed above!)
+        var speech = '';
+        var displayText = 'Test';
+        var data = '';
+        var contextOut = result.contexts;
+        var followupEvent = '';
+
+        apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
     },
 
     /**

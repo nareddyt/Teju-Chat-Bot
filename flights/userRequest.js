@@ -37,6 +37,10 @@ module.exports = {
                     if (context.name === 'remember-flight') {
                         context.parameters.depart_airport = code;
                         context.parameters['depart_airport.original'] = code;
+
+                        var newContext = JSON.parse(JSON.stringify(context));
+                        newContext.name = 'remember-flight-checked';
+                        contextOut.push(newContext);
                     }
                 }
             }

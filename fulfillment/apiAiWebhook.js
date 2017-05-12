@@ -40,7 +40,7 @@ module.exports = {
         var result = req.body.result;
         var action = result.action;
 
-        if (action === 'check_remember_flight') {
+        if (action === 'check_airport') {
             flightRequest.check(result, res);
         } else if (action === 'set_flight_reminder') {
             flightRequest.set(result, res);

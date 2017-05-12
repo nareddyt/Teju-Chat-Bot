@@ -14,6 +14,12 @@ module.exports = {
      */
     check: function (result, res) {
 
+        var speech = '';
+        var displayText = '';
+        var data = '';
+        var contextOut = result.contexts;
+        var followupEvent = '';
+
         if (!result.parameters.depart_airport) {
             // No airport code was mentioned, try to find it
             var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
@@ -22,26 +28,21 @@ module.exports = {
                 // Found an airport code! Change the context
                 // TODO check if airport code is actually valid
 
-                var code = airportCodes[0];
+                var code = airportCodes[0].toUpperCase();
                 result.parameters.depart_airport = code;
 
                 for (var i = 0; i < result.contexts.length; i++) {
                     var context = result.contexts[i];
-                    context.parameters.depart_airport = code;
-                    context.parameters['depart_airport.original'] = code;
+
+                    if (context.name === 'remember-flight') {
+                        context.parameters.depart_airport = code;
+                        context.parameters['depart_airport.original'] = code;
+                    }
                 }
             }
         }
 
-        // TODO check if airline is supported
-
         // Send the response back with the context (might be changed above!)
-        var speech = '';
-        var displayText = 'Test';
-        var data = '';
-        var contextOut = result.contexts;
-        var followupEvent = '';
-
         apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
     },
 

@@ -13,10 +13,14 @@ module.exports = {
     findAirportCode: function (text) {
         if (text.length < 3) {
             return [];
-        } else if (text.length === 3 || text.length === 4) {
-            var index = text.search('([a-z]|[A-Z])\\w\\w');
-            if (index !== 0) {
-                return [text.substring(index, index + 3)];
+        } else if (text.length === 3) {
+            if (text.search('([a-z]|[A-Z])\\w\\w') !== -1) {
+                return [text];
+            }
+            return [];
+        } else if (text.length === 4) {
+            if (text.search('([a-z]|[A-Z])\\w\\w\\W') !== -1) {
+                return [text.substring(0, 3)];
             }
             return [];
         }

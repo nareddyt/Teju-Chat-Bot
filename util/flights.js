@@ -28,7 +28,7 @@ module.exports = {
         var matches = [];
         var end = text.substring(text.length - 4, text.length);
         if (end.search('\\s([a-z]|[A-Z])\\w\\w') === 0) {
-            matches.push(end);
+            matches.push(end.substring(1));
         }
 
         for (var i = 0; i < text.length - 5; i++) {

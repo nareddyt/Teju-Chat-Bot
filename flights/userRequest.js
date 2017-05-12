@@ -15,34 +15,22 @@ module.exports = {
     check: function (result, res) {
 
         var speech = '';
-        var displayText = 'test';
+        var displayText = '';
         var data = '';
-        var contextOut = result.contexts;
+        var contextOut = '';
         var followupEvent = '';
 
         // Try to find an airport code
-        var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
+        var airportCodes = flightUtils.findAirportCode(result.parameters.depart_airport);
 
+        // TODO check if airport code is actually valid
         if (airportCodes.length === 1) {
-            // Found an airport code! Change the context
-            // TODO check if airport code is actually valid
-
-            var code = airportCodes[0].toUpperCase();
-            result.parameters.depart_airport = code;
-
-            for (var i = 0; i < result.contexts.length; i++) {
-                var context = result.contexts[i];
-
-                if (context.name === 'remember-flight') {
-                    var newContext = JSON.parse(JSON.stringify(context));
-
-                    newContext.name = 'remember-flight-checked';
-                    newContext.parameters.depart_airport = code;
-                    newContext.parameters['depart_airport.original'] = code;
-
-                    contextOut.push(newContext);
-                }
-            }
+            // Found an airport code! Perfect data
+            displayText = 'Got it! Can you confirm if this is correct'
+        } else {
+            // Incorrect airport code, looks like we need to ask the user to redo
+            displayText = 'That is not a valid airport code. Please enter the 3 letter word (eg: ATL)';
+            followupEvent = 'redo-airport';
         }
 
         // Send the response back with the context (might be changed above!)

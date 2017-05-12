@@ -15,7 +15,7 @@ module.exports = {
     check: function (result, res) {
 
         var speech = '';
-        var displayText = '';
+        var displayText = 'test';
         var data = '';
         var contextOut = result.contexts;
         var followupEvent = '';
@@ -35,11 +35,12 @@ module.exports = {
                     var context = result.contexts[i];
 
                     if (context.name === 'remember-flight') {
-                        context.parameters.depart_airport = code;
-                        context.parameters['depart_airport.original'] = code;
-
                         var newContext = JSON.parse(JSON.stringify(context));
+
                         newContext.name = 'remember-flight-checked';
+                        newContext.parameters.depart_airport = code;
+                        newContext.parameters['depart_airport.original'] = code;
+
                         contextOut.push(newContext);
                     }
                 }

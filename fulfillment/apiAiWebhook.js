@@ -7,6 +7,7 @@ var basicAuth = require('basic-auth');
 
 // My js dependencies
 var logger = require('../util/logger');
+var flightRequest = require('../flights/userRequest');
 
 module.exports = {
     auth: function (req, res, next) {
@@ -29,8 +30,16 @@ module.exports = {
         }
     },
 
-    fulfill: function (req, res, next) {
-        // TODO
-        res.sendStatus(500);
+    fulfill: function (req, res) {
+        var result = req.body.result;
+        var action = result.action;
+
+        if (action === 'check_remember_flight') {
+            flightRequest.check(req, res);
+        } else if (action === 'set_flight_reminder') {
+            flightRequest.set(req, res);
+        } else {
+            logger.log('warn', 'fulfill call with undefined action:', action);
+        }
     }
 };

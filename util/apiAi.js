@@ -16,7 +16,7 @@ module.exports = {
     /**
      * Sends a text request to api.ai
      */
-    sendText: function (msg, sessionId, callback, callbackOnError) {
+    sendTextQuery: function (msg, sessionId, callback, callbackOnError) {
         // Set up the options with the session id
         var options = {
             sessionId: sessionId
@@ -31,6 +31,24 @@ module.exports = {
 
         // Send the request to api.ai!
         request.end();
+    },
+
+    /**
+     * Sends a fulfillment response back to api.ai
+     */
+    sendFulfillmentResponse: function (res, speech, displayText, data, contextOut, followupEvent) {
+        var json = {};
+        json['speech'] = speech;
+        json['displayText'] = displayText;
+        json['data'] = data;
+        json['contextOut'] = contextOut;
+        json['source'] = 'Teju-Bot fulfillment service';
+
+        if (followupEvent) {
+            json['followupEvent'] = followupEvent;
+        }
+
+        res.status(200).send(json);
     }
 
 };

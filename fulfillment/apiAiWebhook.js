@@ -41,9 +41,9 @@ module.exports = {
         var action = result.action;
 
         if (action === 'check_remember_flight') {
-            flightRequest.check(req, res);
+            flightRequest.check(result, res);
         } else if (action === 'set_flight_reminder') {
-            flightRequest.set(req, res);
+            flightRequest.set(result, res);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
         }

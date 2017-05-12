@@ -13,7 +13,7 @@ var fbMessenger = require('../util/fbMessenger');
 function forwardToApiAi(uid, message) {
 
     if (message.text) {
-        apiAi.sendText(message.text, uid, onApiAiResponse, onApiAiError);
+        apiAi.sendTextQuery(message.text, uid, onApiAiResponse, onApiAiError);
     } else {
         // TODO stickers
         // TODO emojis?

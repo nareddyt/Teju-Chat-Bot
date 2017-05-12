@@ -45,7 +45,9 @@ module.exports = {
         json['source'] = 'Teju-Bot fulfillment service';
 
         if (followupEvent) {
-            json['followupEvent'] = followupEvent;
+            var event = {};
+            event.name = followupEvent;
+            json['followupEvent'] = event;
         }
 
         res.status(200).send(json);

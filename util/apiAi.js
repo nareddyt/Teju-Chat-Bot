@@ -45,7 +45,7 @@ module.exports = {
 
         var size = Object.keys(parameters).length;
         if (size > 0) {
-            json['data'] = parameters;
+            event['data'] = parameters;
         }
 
         res.json(json);

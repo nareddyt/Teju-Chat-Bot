@@ -36,20 +36,11 @@ module.exports = {
     /**
      * Sends a fulfillment response back to api.ai
      */
-    sendFulfillmentResponse: function (res, speech, displayText, data, contextOut, followupEvent) {
+    sendFulfillmentResponse: function (res, followupEvent) {
         var json = {};
-        // json['speech'] = speech;
-        // json['displayText'] = displayText;
-        // json['data'] = data;
-        // json['contextOut'] = contextOut;
-        // json['source'] = 'Teju-Bot fulfillment service';
-
-        if (followupEvent) {
-            var event = {};
-            event.name = followupEvent;
-            json['followupEvent'] = event;
-        }
-
+        var event = {};
+        event.name = followupEvent;
+        json['followupEvent'] = event;
         res.json(json);
     }
 

@@ -12,12 +12,8 @@ module.exports = {
     /**
      * Performs the necessary actions for a check flight request from api.ai.
      */
-    check: function (result, res) {
+    check: function (result, res, mode) {
 
-        var speech = '';
-        var displayText = '';
-        var data = '';
-        var contextOut = '';
         var followupEvent = '';
 
         // Try to find an airport code
@@ -26,22 +22,35 @@ module.exports = {
         // TODO check if airport code is actually valid
         if (airportCodes.length === 1) {
             // Found an airport code! Perfect data
-            displayText = 'Got it! Can you confirm if this is correct';
-            followupEvent = 'correct-airport';
+            followupEvent = 'correct-' + mode + '-airport';
         } else {
             // Incorrect airport code, looks like we need to ask the user to redo
-            displayText = 'That is not a valid airport code. Please enter the 3 letter word (eg: ATL)';
-            followupEvent = 'redo-airport';
+            followupEvent = 'redo-' + mode + '-airport';
         }
 
-        // Send the response back with the context (might be changed above!)
-        apiAiUtils.sendFulfillmentResponse(res, speech, displayText, data, contextOut, followupEvent);
+        // Send the response back with the event
+        apiAiUtils.sendFulfillmentResponse(res, followupEvent);
     },
 
     /**
-     * Performs the necessary actions for a set flight request from api.ai.
+     * Given the api.ai result, will search for the correct flight.
      */
-    set: function (result, res) {
-        // TODO
+    search: function (result, res) {
+        var followupEvent = '';
+
+        // TODO set the reminder in the db
+        if (true) {
+            // Successfully set the reminder
+            followupEvent = 'search-found-flight';
+
+            // TODO data
+
+        } else {
+            // Cannot set reminder for this flight
+            followupEvent = 'search-no-flight';
+        }
+
+        // Send the response back with the event
+        apiAiUtils.sendFulfillmentResponse(res, followupEvent);
     }
 };

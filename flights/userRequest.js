@@ -15,21 +15,24 @@ module.exports = {
     check: function (result, res, mode) {
 
         var followupEvent = '';
+        var parameters = {};
 
         // Try to find an airport code
         var airportCodes = flightUtils.findAirportCode(result.resolvedQuery);
 
         // TODO check if airport code is actually valid
+
         if (airportCodes.length === 1) {
             // Found an airport code! Perfect data
             followupEvent = 'correct-' + mode + '-airport';
+            parameters[mode + '-airport'] = airportCodes[0];
         } else {
             // Incorrect airport code, looks like we need to ask the user to redo
             followupEvent = 'redo-' + mode + '-airport';
         }
 
         // Send the response back with the event
-        apiAiUtils.sendFulfillmentResponse(res, followupEvent);
+        apiAiUtils.sendFulfillmentResponse(res, followupEvent, parameters);
     },
 
     /**

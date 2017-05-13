@@ -36,11 +36,18 @@ module.exports = {
     /**
      * Sends a fulfillment response back to api.ai
      */
-    sendFulfillmentResponse: function (res, followupEvent) {
+    sendFulfillmentResponse: function (res, followupEvent, parameters) {
         var json = {};
+
         var event = {};
         event.name = followupEvent;
         json['followupEvent'] = event;
+
+        var size = Object.keys(parameters).length;
+        if (size > 0) {
+            json['data'] = parameters;
+        }
+
         res.json(json);
     }
 

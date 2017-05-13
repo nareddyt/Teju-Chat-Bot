@@ -17,7 +17,7 @@ module.exports = {
         var followupEvent = '';
 
         // Try to find an airport code
-        var airportCodes = flightUtils.findAirportCode(result.parameters.depart_airport);
+        var airportCodes = flightUtils.findAirportCode(result.parameters[mode + '_airport']);
 
         // TODO check if airport code is actually valid
         if (airportCodes.length === 1) {

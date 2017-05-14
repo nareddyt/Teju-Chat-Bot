@@ -48,7 +48,7 @@ module.exports = {
         } else if (action === 'search_for_flight') {
             flightRequest.search(result, res);
         } else if (action === 'set_flight_reminder') {
-            flightRequest.set(result, res, true);
+            flightRequest.set(result, res);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             res.sendStatus(200);

@@ -51,38 +51,21 @@ module.exports = {
             // TODO data
 
         } else {
-            // Cannot set reminder for this flight.
-            // Determine event based on the existence of a time
-
-            for (var i = 0; i < result.contexts.length; i++) {
-                var context = result.contexts[i];
-
-                if (context.name === 'remember-flight' && context.parameters.depart_time === '') {
-                    followupEvent = 'search-no-flight-no-time';
-                } else {
-                    followupEvent = 'search-no-flight-yes-time';
-                }
-            }
+            // Cannot find the flight data, but still set the reminder
+            followupEvent = 'search-no-flight';
         }
 
         // Send the response back with the event
         apiAiUtils.sendFollowupResponse(res, followupEvent);
-
-        if (followupEvent === 'search-no-flight-yes-time') {
-            // Set up the reminders for the flight
-            this.set(result, res, false);
-        }
     },
 
     /**
      * Sets reminders for the flight given in the result from api.ai
      */
-    set: function (result, res, respond) {
-        // Respond if needed. Otherwise we already responded
-        if (respond) {
-            apiAiUtils.sendFollowupResponse(res, 'flight-reminder-set')
-        }
+    set: function (result, res) {
+        // Respond instantaneously that the flight reminder is set
+        apiAiUtils.sendFollowupResponse(res, 'flight-reminder-set')
 
-        // TODO
+        // TODO actually set the reminders
     }
 };

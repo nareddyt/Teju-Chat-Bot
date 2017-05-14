@@ -48,8 +48,21 @@ module.exports = {
         if (true) {
             // Successfully set the reminder
             followupEvent = 'search-found-flight';
-            parameters['matched_flights'] = ['5hi5', '4this4', '3is3', '2a2', '1test1'];
-            parameters['matched_flights_display'] = ['hi', 'this', 'is', 'a', 'test'];
+
+            parameters['matched_flights'] = [];
+            parameters['matched_flights_display'] = [];
+
+            for (var i = 1; i <= 3; i++) {
+
+                var flight = {};
+                flight['name'] = 'hi';
+                flight['number'] = i;
+                parameters['matched_flights'].push(flight);
+
+                var flight_display = {};
+                flight_display['number'] = i;
+                parameters['matched_flights_display'].push(flight_display);
+            }
 
             // TODO data
 

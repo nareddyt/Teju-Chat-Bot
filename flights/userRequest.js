@@ -53,10 +53,14 @@ module.exports = {
             // Cannot set reminder for this flight.
             // Determine event based on the existence of a time
 
-            if (result.contexts[0].parameters.depart_time === '') {
-                followupEvent = 'search-no-flight-no-time';
-            } else {
-                followupEvent = 'search-no-flight-yes-time';
+            for (var i = 0; i < result.contexts.length; i++) {
+                var context = result.contexts[i];
+
+                if (context.name === 'remember-flight' && context.parameters.depart_time === '') {
+                    followupEvent = 'search-no-flight-no-time';
+                } else {
+                    followupEvent = 'search-no-flight-yes-time';
+                }
             }
         }
 
@@ -65,7 +69,7 @@ module.exports = {
 
         if (followupEvent === 'search-no-flight-yes-time') {
             // Set up the reminders for the flight
-            set(result, res, false);
+            this.set(result, res, false);
         }
     },
 

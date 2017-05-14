@@ -32,7 +32,7 @@ module.exports = {
         }
 
         // Send the response back with the event
-        apiAiUtils.sendFulfillmentResponse(res, followupEvent, parameters);
+        apiAiUtils.sendFollowupResponse(res, followupEvent, parameters);
     },
 
     /**
@@ -65,7 +65,7 @@ module.exports = {
         }
 
         // Send the response back with the event
-        apiAiUtils.sendFulfillmentResponse(res, followupEvent);
+        apiAiUtils.sendFollowupResponse(res, followupEvent);
 
         if (followupEvent === 'search-no-flight-yes-time') {
             // Set up the reminders for the flight
@@ -77,9 +77,9 @@ module.exports = {
      * Sets reminders for the flight given in the result from api.ai
      */
     set: function (result, res, respond) {
-        // Respond with 200 if needed. Otherwise we already responded
+        // Respond if needed. Otherwise we already responded
         if (respond) {
-            res.sendStatus(200);
+            apiAiUtils.sendFollowupResponse(res, 'flight-reminder-set')
         }
 
         // TODO

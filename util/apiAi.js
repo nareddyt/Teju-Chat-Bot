@@ -34,9 +34,9 @@ module.exports = {
     },
 
     /**
-     * Sends a fulfillment response back to api.ai
+     * Sends a fulfillment response with a followup back to api.ai
      */
-    sendFulfillmentResponse: function (res, followupEvent, parameters) {
+    sendFollowupResponse: function (res, followupEvent, parameters) {
         var json = {};
 
         var event = {};

@@ -25,7 +25,7 @@ module.exports = {
         if (airportCodes.length === 1) {
             // Found an airport code! Perfect data
             followupEvent = 'correct-' + mode + '-airport';
-            parameters[mode + '-airport'] = airportCodes[0];
+            parameters[mode + '-airport'] = airportCodes[0].toUpperCase();
         } else {
             // Incorrect airport code, looks like we need to ask the user to redo
             followupEvent = 'redo-' + mode + '-airport';
@@ -41,7 +41,8 @@ module.exports = {
     search: function (result, res) {
         var followupEvent = '';
 
-        // TODO set the reminder in the db
+        // TODO perform real search
+
         // DEBUG
         if (false) {
             // Successfully set the reminder

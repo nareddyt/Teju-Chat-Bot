@@ -40,13 +40,16 @@ module.exports = {
      */
     search: function (result, res) {
         var followupEvent = '';
+        var parameters = {};
 
         // TODO perform real search
 
         // DEBUG
-        if (false) {
+        if (true) {
             // Successfully set the reminder
             followupEvent = 'search-found-flight';
+            parameters['matched_flights'] = ['5hi5', '4this4', '3is3', '2a2', '1test1'];
+            parameters['matched_flights_display'] = ['hi', 'this', 'is', 'a', 'test'];
 
             // TODO data
 
@@ -56,7 +59,7 @@ module.exports = {
         }
 
         // Send the response back with the event
-        apiAiUtils.sendFollowupResponse(res, followupEvent);
+        apiAiUtils.sendFollowupResponse(res, followupEvent, parameters);
     },
 
     /**

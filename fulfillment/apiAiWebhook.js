@@ -40,12 +40,15 @@ module.exports = {
         var result = req.body.result;
         var action = result.action;
 
+        // TODO set event
         if (action === 'check_depart_airport') {
             flightRequest.check(result, res, 'depart');
         } else if (action === 'check_arrival_airport') {
             flightRequest.check(result, res, 'arrival');
         } else if (action === 'search_for_flight') {
             flightRequest.search(result, res);
+        } else if (action === 'set_flight_reminder') {
+            flightRequest.set(result, res, true);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             res.sendStatus(200);

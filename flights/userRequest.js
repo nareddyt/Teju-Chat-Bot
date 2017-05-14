@@ -49,11 +49,34 @@ module.exports = {
             // TODO data
 
         } else {
-            // Cannot set reminder for this flight
-            followupEvent = 'search-no-flight';
+            // Cannot set reminder for this flight.
+            // Determine event based on the existence of a time
+
+            if (result.contexts[0].parameters.depart_time === '') {
+                followupEvent = 'search-no-flight-no-time';
+            } else {
+                followupEvent = 'search-no-flight-yes-time';
+            }
         }
 
         // Send the response back with the event
         apiAiUtils.sendFulfillmentResponse(res, followupEvent);
+
+        if (followupEvent === 'search-no-flight-yes-time') {
+            // Set up the reminders for the flight
+            set(result, res, false);
+        }
+    },
+
+    /**
+     * Sets reminders for the flight given in the result from api.ai
+     */
+    set: function (result, res, respond) {
+        // Respond with 200 if needed. Otherwise we already responded
+        if (respond) {
+            res.sendStatus(200);
+        }
+
+        // TODO
     }
 };

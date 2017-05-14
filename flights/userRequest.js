@@ -42,6 +42,7 @@ module.exports = {
         var followupEvent = '';
 
         // TODO set the reminder in the db
+        // DEBUG
         if (false) {
             // Successfully set the reminder
             followupEvent = 'search-found-flight';

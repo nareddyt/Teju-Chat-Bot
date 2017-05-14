@@ -43,9 +43,11 @@ module.exports = {
         event.name = followupEvent;
         json['followupEvent'] = event;
 
-        var size = Object.keys(parameters).length;
-        if (size > 0) {
-            event['data'] = parameters;
+        if (parameters) {
+            var size = Object.keys(parameters).length;
+            if (size > 0) {
+                event['data'] = parameters;
+            }
         }
 
         res.json(json);

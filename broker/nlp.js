@@ -12,7 +12,6 @@ var fbMessenger = require('../util/fbMessenger');
  */
 function forwardToApiAi(uid, message) {
 
-    logger.log('info', 'response to' + uid + 'with message' + JSON.stringify(message));
     if (message.text) {
         apiAi.sendTextQuery(message.text, uid, onApiAiResponse, onApiAiError);
     } else {
@@ -28,6 +27,7 @@ function forwardToApiAi(uid, message) {
      */
     function onApiAiResponse(response) {
         // Send that message to the user!
+        logger.log('info', 'response to' + uid + 'with message' + JSON.stringify(message));
         fbMessenger.sendTextMessage(uid, response.result.fulfillment.speech);
     }
 

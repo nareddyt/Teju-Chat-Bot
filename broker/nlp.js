@@ -27,7 +27,7 @@ function forwardToApiAi(uid, message) {
      */
     function onApiAiResponse(response) {
         // Send that message to the user!
-        logger.log('info', 'response to' + uid + 'with message' + JSON.stringify(message));
+        logger.log('info', 'response to' + uid + 'with message' + JSON.stringify(response));
         fbMessenger.sendTextMessage(uid, response.result.fulfillment.speech);
     }
 

@@ -12,6 +12,7 @@ var fbMessenger = require('../util/fbMessenger');
  */
 function forwardToApiAi(uid, message) {
 
+    logger.log('info', 'response to', uid, 'with message', message);
     if (message.text) {
         apiAi.sendTextQuery(message.text, uid, onApiAiResponse, onApiAiError);
     } else {

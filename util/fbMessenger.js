@@ -40,7 +40,7 @@ module.exports = {
 
         // Split on message type
         if (payload.type === 'quick-reply') {
-            body = '{"recipient": {"id": "' + uid + '"},' + payload.message + '}';
+            body = '{"recipient": {"id": "' + uid + '"}, "message":' + JSON.stringify(payload.message) + '}';
         } else {
             logger.log('warn', 'unsupported payload type to facebook' + payload.type);
             return;

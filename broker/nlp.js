@@ -35,11 +35,20 @@ function forwardToApiAi(uid, message) {
             var message = messages[i];
 
             // Make sure to check if we already sent it (as messages duplicate sometimes)
-            if (message.speech && !(message.speech in cache)) {
-                // Is a text message, send as normal
-                fbMessenger.sendTextMessage(uid, message.speech);
-            } else {
-                // Handle custom payloads here
+            if (!(message in cache)) {
+                cache.push(message);
+
+                if (message.speech) {
+                    // Is a text message, send as normal
+                    fbMessenger.sendTextMessage(uid, message.speech);
+                } else {
+                    // Handle custom payloads here
+                    if (message.client === 'facebook-messenger') {
+                        fbMessenger.sendCustomPayload(uid, message);
+                    } else {
+                        logger.log('warn', 'api.ai responded to unsupported client' + message.client);
+                    }
+                }
             }
         }
     }

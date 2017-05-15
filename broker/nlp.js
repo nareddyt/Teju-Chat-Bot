@@ -26,9 +26,22 @@ function forwardToApiAi(uid, message) {
      * Callback for when api.ai responds with a text message to send back to the user
      */
     function onApiAiResponse(response) {
-        // Send that message to the user!
-        logger.log('info', 'response to' + uid + 'with message' + JSON.stringify(response));
-        fbMessenger.sendTextMessage(uid, response.result.fulfillment.speech);
+        // Send that message(s) to the user!
+        var cache = [];
+
+        // Loop through all the messages
+        var messages = response.result.fulfillment.messages;
+        for (var i = 0; i < messages.length; i++) {
+            var message = messages[i];
+
+            // Make sure to check if we already sent it (as messages duplicate sometimes)
+            if (message.speech && !(message.speech in cache)) {
+                // Is a text message, send as normal
+                fbMessenger.sendTextMessage(uid, message.speech);
+            } else {
+                // Handle custom payloads here
+            }
+        }
     }
 
     /**

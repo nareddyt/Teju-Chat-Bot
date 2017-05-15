@@ -45,7 +45,7 @@ module.exports = {
         // TODO perform real search
 
         // DEBUG
-        if (true) {
+        if (false) {
             // Successfully set the reminder
             followupEvent = 'search-found-flight';
 

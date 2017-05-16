@@ -6,6 +6,7 @@
 var logger = require('../util/logger');
 var flightUtils = require('../util/flights');
 var apiAiUtils = require('../util/apiAi');
+var fbMessenger = require('../util/fbMessenger');
 
 module.exports = {
 
@@ -45,10 +46,11 @@ module.exports = {
         // TODO perform real search
 
         // DEBUG
-        if (false) {
-            // Successfully set the reminder
-            followupEvent = 'search-found-flight';
+        if (true) {
+            // Successfully found some matching flights
+            followupEvent = 'search-found-flight-1';
 
+            // Store this information to send to api.ai
             parameters['matched_flights'] = [];
             parameters['matched_flights_display'] = [];
 
@@ -64,7 +66,11 @@ module.exports = {
                 parameters['matched_flights_display'].push(flight_display);
             }
 
-            // TODO data
+            // TODO
+
+            // // Api.ai won't display a response, we make our custom facebook responses here
+            // var message = '{"attachment":{"type":"template","payload":{"template_type":"generic","elements":[{"title":"#TODO","subtitle":"#TODO","buttons":[{"type":"postback","title":"Select","payload":"#TODO"}]}]}}}';
+            // fbMessenger.sendCustomPayload(uid, message)
 
         } else {
             // Cannot find the flight data, but still set the reminder

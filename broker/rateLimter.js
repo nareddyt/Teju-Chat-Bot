@@ -27,7 +27,7 @@ module.exports = {
         } else {
             // Continue on with the request
             // logger.log('warn', 'not using rate limiting');
-            nlp(uid, message);
+            nlp.route(uid, message);
         }
     }
 
@@ -47,7 +47,7 @@ function getUserRequests(uid, message) {
         if (err) {
             logger.log('error', err);
             this.dbConnected = false;
-            nlp(uid, message);
+            nlp.route(uid, message);
         } else {
             // Forward to the next function
             checkUserExists(uid, message, result);
@@ -80,7 +80,7 @@ function checkUserExists(uid, message, result) {
         if (err) {
             logger.log('error', err);
             this.dbConnected = false;
-            nlp(uid, message);
+            nlp.route(uid, message);
         } else {
             // Go back and query the DB for the default values of the user we just added
             getUserRequests(uid, message);
@@ -134,10 +134,10 @@ function calculateRateLimit(uid, message, uidData) {
         if (err) {
             logger.log('error', err);
             this.dbConnected = false;
-            nlp(uid, message);
+            nlp.route(uid, message);
         } else {
             // Continue on with the request
-            nlp(uid, message);
+            nlp.route(uid, message);
         }
     }
 

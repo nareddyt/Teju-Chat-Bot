@@ -38,8 +38,8 @@ module.exports = {
      * If basic auth passes, fulfills the request.
      */
     fulfill: function (req, res) {
+        var uid = req.body.sessionId;
         var result = req.body.result;
-        var uid = req.sessionId;
         var action = result.action;
 
         // ASYNC: Send the response back with the event

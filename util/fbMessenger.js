@@ -13,15 +13,7 @@ module.exports = {
     /**
      * Sends a text message to the user through facebook messenger.
      */
-    sendTextMessage: function (uid, message, callback) {
-        // Error check
-        var onRes = function (res) {
-            // Do nothing
-        };
-        if (callback) {
-            onRes = callback;
-        }
-
+    sendTextMessage: function (uid, message) {
         // Create the json body
         if (message === null || !message) {
             logger.log('error', 'empty message from api.ai');
@@ -30,23 +22,17 @@ module.exports = {
         var body = '{"recipient": {"id": "' + uid + '"},"message": {"text": "' + message + '"}}';
 
         // Make the request
-        makeRequest(body, onRes);
+        makeRequest(body);
     },
 
     /**
      * Sends a custom payload to facebook messenger
      */
-    sendCustomPayload: function (uid, payload, callback) {
+    sendCustomPayload: function (uid, payload) {
         // Error check
         if (payload === null || !payload) {
             logger.log('error', 'empty payload from api.ai');
             return;
-        }
-        var onRes = function (res) {
-            // Do nothing
-        };
-        if (callback) {
-            onRes = callback;
         }
 
         // Start creating json response
@@ -63,14 +49,14 @@ module.exports = {
         }
 
         // Make the request
-        makeRequest(body, onRes);
+        makeRequest(body);
     }
 };
 
 /**
  * POSTs the body to facebook to send's send api
  */
-function makeRequest(body, callback) {
+function makeRequest(body) {
     // Set up the POST data
     var options = {
         hostname: 'graph.facebook.com',
@@ -84,7 +70,7 @@ function makeRequest(body, callback) {
     };
 
     // Make the request
-    var request = new https.request(options, callback);
+    var request = new https.request(options);
 
     // Set up the error handler
     request.on('error', function (err) {
@@ -94,5 +80,5 @@ function makeRequest(body, callback) {
     });
 
     // Post the body
-    request.end(body);
+    request.end(body)
 }

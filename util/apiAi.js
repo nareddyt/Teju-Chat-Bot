@@ -87,13 +87,18 @@ module.exports = {
 
     /**
      * Callback for when api.ai responds with a text message to send back to the user
+     * Note this this function gets called recursively to prevent out-of-order messages!
      */
-    onApiAiResponse: function (uid, response) {
-        // Send that message(s) to the user!
+    onApiAiResponse: function (uid, response, count) {
+        var i = 0;
+        if (count) {
+            i = count;
+        }
 
-        // Loop through all the messages
+        // Go through each message through all the messages
         var messages = response.result.fulfillment.messages;
-        for (var i = 0; i < messages.length; i++) {
+
+        if (i < messages.length) {
             var message = messages[i];
 
             // Make sure this message is platform-independent
@@ -101,12 +106,19 @@ module.exports = {
 
                 if (message.speech) {
                     // Is a text message, send as normal
-                    fbMessenger.sendTextMessage(uid, message.speech);
+                    fbMessenger.sendTextMessage(uid, message.speech, onMessengerResponse);
                 } else {
                     // Handle custom payloads here
-                    fbMessenger.sendCustomPayload(uid, message.payload);
+                    fbMessenger.sendCustomPayload(uid, message.payload, onMessengerResponse);
                 }
             }
+        }
+
+        /**
+         * Callback for a successful fb messenger message
+         */
+        function onMessengerResponse(res) {
+            this.onApiAiResponse(uid, response, i + 1)
         }
     },
 

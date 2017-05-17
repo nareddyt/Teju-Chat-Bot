@@ -37,48 +37,31 @@ module.exports = {
     },
 
     /**
-     * Given the api.ai result, will search for the correct flight.
+     * Given the api.ai result, will search for the correct flight. Note this happens async with the processing event
      */
     search: function (result, res) {
-        var followupEvent = '';
-        var parameters = {};
-
-        // TODO perform real search
-
-        // DEBUG
-        if (true) {
-            // Successfully found some matching flights
-            followupEvent = 'search-found-flight-1';
-
-            // Store this information to send to api.ai
-            parameters['matched_flights'] = [];
-            parameters['matched_flights_display'] = [];
-
-            for (var i = 1; i <= 3; i++) {
-
-                var flight = {};
-                flight['name'] = 'hi';
-                flight['number'] = i;
-                parameters['matched_flights'].push(flight);
-
-                var flight_display = {};
-                flight_display['number'] = i;
-                parameters['matched_flights_display'].push(flight_display);
-            }
-
-            // TODO
-
-            // // Api.ai won't display a response, we make our custom facebook responses here
-            // var message = '{"attachment":{"type":"template","payload":{"template_type":"generic","elements":[{"title":"#TODO","subtitle":"#TODO","buttons":[{"type":"postback","title":"Select","payload":"#TODO"}]}]}}}';
-            // fbMessenger.sendCustomPayload(uid, message)
-
-        } else {
-            // Cannot find the flight data, but still set the reminder
-            followupEvent = 'search-no-flight';
-        }
 
         // Send the response back with the event
-        apiAiUtils.sendFollowupResponse(res, followupEvent, parameters);
+        apiAiUtils.sendFollowupResponse(res, 'processing');
+
+        // TODO perform real search
+        var matches = [];
+
+        // DEBUG
+        if (matches.length > 0) {
+            // Successfully found some matching flights
+
+            // TODO display flights via messenger
+
+            // Note that we do not send an api.ai response here.
+            // We only do that after the user selects a flight in the broker layer
+
+        } else {
+            // Cannot find the flight data, but still set the reminder.
+            // Send event to api.ai
+            var event = 'search-no-flight';
+            apiAiUtils.sendEventQuery(event)
+        }
     },
 
     /**

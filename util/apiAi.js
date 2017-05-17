@@ -7,6 +7,7 @@ var apiAi = require('apiai');
 
 // My js dependencies
 var logger = require('../util/logger');
+var fbMessenger = require('../util/fbMessenger');
 
 // Set up the api.ai app
 var app = apiAi(process.env.API_AI_TOKEN);
@@ -16,10 +17,10 @@ module.exports = {
     /**
      * Sends a text request to api.ai
      */
-    sendTextQuery: function (msg, sessionId, callback, callbackOnError) {
+    sendTextQuery: function (msg, uid, callback, callbackOnError) {
         // Set up the options with the session id
         var options = {
-            sessionId: sessionId
+            sessionId: uid
         };
 
         // Create the request
@@ -36,10 +37,10 @@ module.exports = {
     /**
      * Sends an event to api.ai
      */
-    sendEventQuery: function (event_name, parameters, sessionId, callback, callbackOnError) {
+    sendEventQuery: function (event_name, parameters, uid, callback, callbackOnError) {
         // Set up the options with the session id
         var options = {
-            sessionId: sessionId
+            sessionId: uid
         };
 
         // Create event json
@@ -82,5 +83,40 @@ module.exports = {
         }
 
         res.json(json);
+    },
+
+    /**
+     * Callback for when api.ai responds with a text message to send back to the user
+     */
+    onApiAiResponse: function (uid, response) {
+        // Send that message(s) to the user!
+
+        // Loop through all the messages
+        var messages = response.result.fulfillment.messages;
+        for (var i = 0; i < messages.length; i++) {
+            var message = messages[i];
+
+            // Make sure this message is platform-independent
+            if (!message.platform) {
+
+                if (message.speech) {
+                    // Is a text message, send as normal
+                    fbMessenger.sendTextMessage(uid, message.speech);
+                } else {
+                    // Handle custom payloads here
+                    fbMessenger.sendCustomPayload(uid, message.payload);
+                }
+            }
+        }
+    },
+
+    /**
+     * Callback for when api.ai responds with an error (it might be down)
+     */
+    onApiAiError: function (uid, error) {
+        // Notify the user
+        logger.log('error', 'api.ai seems to be down right now');
+        logger.log('error', error);
+        fbMessenger.sendTextMessage(uid, 'My bad, it seems like something is down :O');
     }
 };

@@ -8,6 +8,7 @@ var basicAuth = require('basic-auth');
 // My js dependencies
 var logger = require('../util/logger');
 var flightRequest = require('../flights/userRequest');
+var apiAiUtils = require('../util/apiAi');
 
 module.exports = {
     /**
@@ -38,19 +39,24 @@ module.exports = {
      */
     fulfill: function (req, res) {
         var result = req.body.result;
+        var uid = req.sessionId;
         var action = result.action;
 
-        // TODO set event
+        // ASYNC: Send the response back with the event
+        apiAiUtils.sendFollowupResponse(res, 'processing');
+
+        // Determine correct method for the action
         if (action === 'check_depart_airport') {
-            flightRequest.check(result, res, 'depart');
+            flightRequest.checkAirport(uid, result, res, 'depart');
         } else if (action === 'check_arrival_airport') {
-            flightRequest.check(result, res, 'arrival');
+            flightRequest.checkAirport(uid, result, res, 'arrival');
         } else if (action === 'search_for_flight') {
-            flightRequest.search(result, res);
+            flightRequest.searchForPlane(uid, result, res);
         } else if (action === 'set_flight_reminder') {
-            flightRequest.set(result, res);
+            flightRequest.setReminder(uid, result, res);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
+            logger.log('warn', 'note that' + uid + 'is now in processing state');
             res.sendStatus(200);
         }
     }

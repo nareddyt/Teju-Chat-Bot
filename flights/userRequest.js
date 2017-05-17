@@ -5,17 +5,17 @@
 // My js dependencies
 var logger = require('../util/logger');
 var flightUtils = require('../util/flights');
-var apiAiUtils = require('../util/apiAi');
+var apiAi = require('../util/apiAi');
 var fbMessenger = require('../util/fbMessenger');
 
 module.exports = {
 
     /**
-     * Performs the necessary actions for a check flight request from api.ai.
+     * Performs the necessary actions for a check flight request from api.ai. Note this happens async with the processing event
      */
-    check: function (result, res, mode) {
+    checkAirport: function (uid, result, res, mode) {
 
-        var followupEvent = '';
+        var event = '';
         var parameters = {};
 
         // Try to find an airport code
@@ -25,24 +25,35 @@ module.exports = {
 
         if (airportCodes.length === 1) {
             // Found an airport code! Perfect data
-            followupEvent = 'correct-' + mode + '-airport';
+            event = 'correct-' + mode + '-airport';
             parameters[mode + '-airport'] = airportCodes[0].toUpperCase();
         } else {
             // Incorrect airport code, looks like we need to ask the user to redo
-            followupEvent = 'redo-' + mode + '-airport';
+            event = 'redo-' + mode + '-airport';
         }
 
         // Send the response back with the event
-        apiAiUtils.sendFollowupResponse(res, followupEvent, parameters);
+        apiAi.sendEventQuery(event, parameters, uid, onApiAiResponse, onApiAiError);
+
+        /**
+         * Callback for when api.ai responds with a text message to send back to the user
+         */
+        function onApiAiResponse(response) {
+            apiAi.onApiAiResponse(uid, response);
+        }
+
+        /**
+         * Callback for when api.ai responds with an error (it might be down)
+         */
+        function onApiAiError(error) {
+            apiAi.onApiAiError(uid, error);
+        }
     },
 
     /**
      * Given the api.ai result, will search for the correct flight. Note this happens async with the processing event
      */
-    search: function (result, res) {
-
-        // Send the response back with the event
-        apiAiUtils.sendFollowupResponse(res, 'processing');
+    searchForPlane: function (uid, result, res) {
 
         // TODO perform real search
         var matches = [];
@@ -54,23 +65,52 @@ module.exports = {
             // TODO display flights via messenger
 
             // Note that we do not send an api.ai response here.
-            // We only do that after the user selects a flight in the broker layer
+            // We only do that after the user selects a flight, this happens in the broker layer
 
         } else {
             // Cannot find the flight data, but still set the reminder.
             // Send event to api.ai
             var event = 'search-no-flight';
-            apiAiUtils.sendEventQuery(event)
+            apiAi.sendEventQuery(event, {}, uid, onApiAiResponse, onApiAiError);
+        }
+
+        /**
+         * Callback for when api.ai responds with a text message to send back to the user
+         */
+        function onApiAiResponse(response) {
+            apiAi.onApiAiResponse(uid, response);
+        }
+
+        /**
+         * Callback for when api.ai responds with an error (it might be down)
+         */
+        function onApiAiError(error) {
+            apiAi.onApiAiError(uid, error);
         }
     },
 
     /**
-     * Sets reminders for the flight given in the result from api.ai
+     * Sets reminders for the flight given in the result from api.ai. Note this happens async with the processing event
      */
-    set: function (result, res) {
-        // Respond instantaneously that the flight reminder is set
-        apiAiUtils.sendFollowupResponse(res, 'flight-reminder-set')
+    setReminder: function (uid, result, res) {
 
         // TODO actually set the reminders
+
+        // Send the reminder-set event to api.ai
+        apiAi.sendEventQuery('flight-reminder-set', {}, uid, onApiAiResponse, onApiAiError);
+
+        /**
+         * Callback for when api.ai responds with a text message to send back to the user
+         */
+        function onApiAiResponse(response) {
+            apiAi.onApiAiResponse(uid, response);
+        }
+
+        /**
+         * Callback for when api.ai responds with an error (it might be down)
+         */
+        function onApiAiError(error) {
+            apiAi.onApiAiError(uid, error);
+        }
     }
 };

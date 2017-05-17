@@ -4,6 +4,7 @@
 
 // Npm dependencies
 var apiAi = require('apiai');
+var sleep = require('system-sleep');
 
 // My js dependencies
 var logger = require('../util/logger');
@@ -106,6 +107,7 @@ module.exports = {
                     // Handle custom payloads here
                     fbMessenger.sendCustomPayload(uid, message.payload);
                 }
+                sleep(1000);
             }
         }
     },

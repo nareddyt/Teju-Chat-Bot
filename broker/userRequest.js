@@ -48,6 +48,7 @@ function parseJson(req) {
 
         // Loop through each of the entries
         for (var i = 0; i < entries.length; i++) {
+
             var messaging_events = entries[i].messaging;
             if (messaging_events) {
 

@@ -34,6 +34,37 @@ module.exports = {
     },
 
     /**
+     * Sends an event to api.ai
+     */
+    sendEventQuery: function (event_name, parameters, sessionId, callback, callbackOnError) {
+        // Set up the options with the session id
+        var options = {
+            sessionId: sessionId
+        };
+
+        // Create event json
+        var event = {
+            name: event_name
+        };
+        if (parameters) {
+            var size = Object.keys(parameters).length;
+            if (size > 0) {
+                event['data'] = parameters;
+            }
+        }
+
+        // Create the request
+        var request = app.eventRequest(event, options);
+
+        // Set up the callbacks
+        request.on('response', callback);
+        request.on('error', callbackOnError);
+
+        // Send the request to api.ai!
+        request.end();
+    },
+
+    /**
      * Sends a fulfillment response with a followup back to api.ai
      */
     sendFollowupResponse: function (res, followupEvent, parameters) {
@@ -52,5 +83,4 @@ module.exports = {
 
         res.json(json);
     }
-
 };

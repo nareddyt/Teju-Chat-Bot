@@ -62,14 +62,19 @@ function parseJson(req) {
                         // Continue by sending to the Rate Limiter
 
                         var message = messaging_events[i].message;
-                        var payload = messaging_events[i].postback.payload;
 
                         if (message) {
                             // Text string
                             rateLimiter.useRateLimiting(sender_uid, message);
-                        } else if (payload) {
+                        } else {
+                            var payload = messaging_events[i].postback.payload;
                             // Split on type of payload
-                            // TODO
+
+                            if (payload.contains('flight_number')) {
+                                // Selected a flight
+                                var flight = JSON.parse(payload);
+                                // TODO
+                            }
                         }
                     } else {
                         logger.log('warn', 'validator failed: ' + req);

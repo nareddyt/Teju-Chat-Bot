@@ -137,7 +137,7 @@ module.exports = {
                         {
                             "content_type": "text",
                             "title": "None of them are my flight",
-                            "payload": "No-Flight-Matched"
+                            "payload": "#IGNORE"
                         }
                     ]
                 }

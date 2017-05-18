@@ -127,6 +127,23 @@ module.exports = {
                 fbMessenger.sendCustomPayload(uid, payload);
             }
 
+            // Send explanation text and a quick reply
+            var quick_reply = {
+                "client": "facebook-messenger",
+                "type": "quick-reply",
+                "message": {
+                    "text": "Select your flight above. If none of them seem familiar, let me know.",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "None of them are my flight",
+                            "payload": "No-Flight-Matched"
+                        }
+                    ]
+                }
+            };
+            fbMessenger.sendCustomPayload(uid, quick_reply);
+
             // Note that we do not send an api.ai response here.
             // We only do that after the user selects a flight, this happens in the broker layer
 

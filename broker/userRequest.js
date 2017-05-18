@@ -56,12 +56,21 @@ function parseJson(req) {
                 for (var j = 0; j < messaging_events.length; j++) {
                     // Retrieve the required values from the payload
                     var sender_uid = messaging_events[i].sender.id;
-                    var message = messaging_events[i].message;
 
                     if (validator.isNumeric(sender_uid)) {
                         // FIXME make async for each message
                         // Continue by sending to the Rate Limiter
-                        rateLimiter.useRateLimiting(sender_uid, message);
+
+                        var message = messaging_events[i].message;
+                        var payload = messaging_events[i].postback.payload;
+
+                        if (message) {
+                            // Text string
+                            rateLimiter.useRateLimiting(sender_uid, message);
+                        } else if (payload) {
+                            // Split on type of payload
+                            // TODO
+                        }
                     } else {
                         logger.log('warn', 'validator failed: ' + req);
                     }

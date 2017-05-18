@@ -107,7 +107,9 @@ module.exports = {
                     // Handle custom payloads here
                     fbMessenger.sendCustomPayload(uid, message.payload);
                 }
-                sleep(1000);
+
+                // Sleep to prevent out-of-order messages (kinda)
+                sleep(100);
             }
         }
     },

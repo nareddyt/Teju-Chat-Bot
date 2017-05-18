@@ -13,7 +13,7 @@ module.exports = {
     /**
      * Performs the necessary actions for a check flight request from api.ai. Note this happens async with the processing event
      */
-    checkAirport: function (uid, result, res, mode) {
+    checkAirport: function (uid, result, mode) {
 
         var event = '';
         var parameters = {};
@@ -53,7 +53,7 @@ module.exports = {
     /**
      * Given the api.ai result, will search for the correct flight. Note this happens async with the processing event
      */
-    searchForPlane: function (uid, result, res) {
+    searchForPlane: function (uid, result) {
 
         // TODO perform real search
         var matches = [];
@@ -92,7 +92,7 @@ module.exports = {
     /**
      * Sets reminders for the flight given in the result from api.ai. Note this happens async with the processing event
      */
-    setReminder: function (uid, result, res) {
+    setReminder: function (uid, result) {
 
         // TODO actually set the reminders
 

@@ -47,17 +47,16 @@ module.exports = {
 
         // Determine correct method for the action
         if (action === 'check_depart_airport') {
-            flightRequest.checkAirport(uid, result, res, 'depart');
+            flightRequest.checkAirport(uid, result, 'depart');
         } else if (action === 'check_arrival_airport') {
-            flightRequest.checkAirport(uid, result, res, 'arrival');
+            flightRequest.checkAirport(uid, result, 'arrival');
         } else if (action === 'search_for_flight') {
-            flightRequest.searchForPlane(uid, result, res);
+            flightRequest.searchForPlane(uid, result);
         } else if (action === 'set_flight_reminder') {
-            flightRequest.setReminder(uid, result, res);
+            flightRequest.setReminder(uid, result);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             logger.log('warn', 'note that' + uid + 'is now in processing state');
-            res.sendStatus(200);
         }
     }
 };

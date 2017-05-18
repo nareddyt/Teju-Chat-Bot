@@ -86,7 +86,7 @@ function makeRequest(body) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(body)
+            'Content-Length': Buffer.byteLength(JSON.stringify(body))
         }
     };
 
@@ -101,5 +101,5 @@ function makeRequest(body) {
     });
 
     // Post the body
-    request.end(body)
+    request.end(JSON.stringify(body))
 }

@@ -57,12 +57,37 @@ module.exports = {
 
         // TODO perform real search
         var matches = [];
+        var flight1 = {
+            depart_date: "2017-05-23",
+            depart_time: "8:00",
+            depart_airport: "ATL",
+            arrivals: [
+                {
+                    date: "2017-05-23",
+                    time: "10:00",
+                    airport: "BAL"
+                },
+                {
+                    date: "2017-05-23",
+                    time: "14:00",
+                    airport: "BOS"
+                }
+            ],
+            airline: "Delta Air Lines",
+            flight_number: "WN1830"
+        };
+        matches.push(flight1);
 
         // DEBUG
         if (matches.length > 0) {
             // Successfully found some matching flights
 
-            // TODO display flights via messenger
+            // Display flights via messenger
+            for (var flight in matches) {
+
+                // TODO
+
+            }
 
             // Note that we do not send an api.ai response here.
             // We only do that after the user selects a flight, this happens in the broker layer

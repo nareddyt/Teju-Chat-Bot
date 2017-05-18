@@ -85,8 +85,45 @@ module.exports = {
             // Display flights via messenger
             for (var flight in matches) {
 
-                // TODO
+                var flight_route = '';
+                var flight_times = '';
 
+                flight_route += flight.depart_airport;
+                for (var arrival in flight.arrivals) {
+                    flight_route += ' -> ' + arrival.airport;
+                }
+
+                flight_times += 'Leaves on ' + flight.depart_date + ' at ' + flight.depart_time;
+
+                // Predefined payload with the generic template
+                var payload = {
+                    "client": "facebook-messenger",
+                    "type": "generic-template",
+                    "message": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [
+                                    {
+                                        "title": flight_route,
+                                        "subtitle": flight_times,
+                                        "buttons": [
+                                            {
+                                                "type": "postback",
+                                                "title": "This is my flight",
+                                                "payload": flight
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                };
+
+                // Send this to the user
+                fbMessenger.sendCustomPayload(uid, payload);
             }
 
             // Note that we do not send an api.ai response here.

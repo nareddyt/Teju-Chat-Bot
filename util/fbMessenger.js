@@ -39,7 +39,7 @@ module.exports = {
         var body = '';
 
         // Split on message type
-        if (payload.type === 'quick-reply') {
+        if (payload.type === 'quick-reply' || payload.type === 'generic-template') {
             body = '{"recipient": {"id": "' + uid + '"}, "message":' + JSON.stringify(payload.message) + '}';
         } else if (payload.type === 'sender-action') {
             body = '{"recipient": {"id": "' + uid + '"}, "sender_action":' + JSON.stringify(payload.sender_action) + '}';

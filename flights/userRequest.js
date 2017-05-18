@@ -78,18 +78,19 @@ module.exports = {
         };
         matches.push(flight1);
 
-        // DEBUG
         if (matches.length > 0) {
             // Successfully found some matching flights
 
             // Display flights via messenger
-            for (var flight in matches) {
+            for (var i = 0; i < matches.length; i++) {
+                var flight = matches[i];
 
                 var flight_route = '';
                 var flight_times = '';
 
                 flight_route += flight.depart_airport;
-                for (var arrival in flight.arrivals) {
+                for (var j = 0; j < flight.arrivals.length; j++) {
+                    var arrival = flight.arrivals[j];
                     flight_route += ' -> ' + arrival.airport;
                 }
 
@@ -112,7 +113,7 @@ module.exports = {
                                             {
                                                 "type": "postback",
                                                 "title": "This is my flight",
-                                                "payload": flight
+                                                "payload": JSON.stringify(flight)
                                             }
                                         ]
                                     }

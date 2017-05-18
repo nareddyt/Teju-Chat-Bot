@@ -14,12 +14,21 @@ module.exports = {
      * Sends a text message to the user through facebook messenger.
      */
     sendTextMessage: function (uid, message) {
-        // Create the json body
+        // Error check
         if (message === null || !message) {
             logger.log('error', 'empty message from api.ai');
             message = "My bad, I could not process your message :O";
         }
-        var body = '{"recipient": {"id": "' + uid + '"},"message": {"text": "' + message + '"}}';
+
+        // Create the json body
+        var body = {
+            recipient: {
+                id: uid
+            },
+            message: {
+                text: message
+            }
+        };
 
         // Make the request
         makeRequest(body);
@@ -40,9 +49,21 @@ module.exports = {
 
         // Split on message type
         if (payload.type === 'quick-reply' || payload.type === 'generic-template') {
-            body = '{"recipient": {"id": "' + uid + '"}, "message":' + JSON.stringify(payload.message) + '}';
+            body = {
+                recipient: {
+                    id: uid
+                },
+                message: payload.message
+            };
+
         } else if (payload.type === 'sender-action') {
-            body = '{"recipient": {"id": "' + uid + '"}, "sender_action":' + JSON.stringify(payload.sender_action) + '}';
+            body = {
+                recipient: {
+                    id: uid
+                },
+                sender_action: payload.sender_action
+            };
+
         } else {
             logger.log('warn', 'unsupported payload type to facebook' + payload.type);
             return;

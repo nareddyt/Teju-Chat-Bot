@@ -2,6 +2,9 @@
 
 // File that handles receiving check flight messages from api.ai
 
+// Npm dependencies
+var sleep = require('system-sleep');
+
 // My js dependencies
 var logger = require('../util/logger');
 var flightUtils = require('../util/flights');
@@ -125,6 +128,9 @@ module.exports = {
 
                 // Send this to the user
                 fbMessenger.sendCustomPayload(uid, payload);
+
+                // Wait to prevent out-of-order messages (kinda)
+                sleep(100);
             }
 
             // Send explanation text and a quick reply

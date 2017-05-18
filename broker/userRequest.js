@@ -70,7 +70,7 @@ function parseJson(req) {
                             var payload = messaging_events[i].postback.payload;
                             // Split on type of payload
 
-                            if (payload.contains('flight_number')) {
+                            if (payload.indexOf('flight_number') !== 0) {
                                 // Selected a flight
                                 var flight = JSON.parse(payload);
                                 // TODO

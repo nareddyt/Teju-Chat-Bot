@@ -9,6 +9,7 @@ var basicAuth = require('basic-auth');
 var logger = require('../util/logger');
 var flightRequest = require('./flights/userRequest');
 var apiAiUtils = require('../util/apiAi');
+var conversationRequest = require('./conversation/userRequest');
 
 module.exports = {
     /**
@@ -55,7 +56,7 @@ module.exports = {
         } else if (action === 'set_flight_reminder') {
             flightRequest.setReminder(uid, result, null);
         } else if (action === 'reset_contexts') {
-
+            conversationRequest.resetContextsRequest(uid, result);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             logger.log('warn', 'note that' + uid + 'is now in processing state');

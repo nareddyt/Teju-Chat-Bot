@@ -15,7 +15,7 @@ module.exports = {
     /**
      * Resets all contexts (used when a user says cancel)
      */
-    resetContexts: function (uid, result) {
+    resetContextsRequest: function (uid, result) {
         // Reset contexts
         apiAi.resetContexts(uid, onApiAiResponse, onApiAiError);
 

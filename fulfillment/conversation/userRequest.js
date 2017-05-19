@@ -19,6 +19,9 @@ module.exports = {
         // Reset contexts
         apiAi.resetContexts(uid, onApiAiResponse, onApiAiError);
 
+        // Sleep to prevent out-of-order messages
+        sleep(100);
+
         // Let user know
         fbMessenger.sendTextMessage(uid, "Ok, cancelling.");
 

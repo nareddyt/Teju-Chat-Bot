@@ -53,7 +53,7 @@ module.exports = {
         } else if (action === 'search_for_flight') {
             flightRequest.searchForPlane(uid, result);
         } else if (action === 'set_flight_reminder') {
-            flightRequest.setReminder(uid, result);
+            flightRequest.setReminder(uid, result, null);
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             logger.log('warn', 'note that' + uid + 'is now in processing state');

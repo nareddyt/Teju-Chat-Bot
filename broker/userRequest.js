@@ -10,6 +10,7 @@ var logger = require('../util/logger');
 var security = require('../util/security');
 var errorHandler = require('../util/errorHandler');
 var rateLimiter = require('./rateLimter');
+var flightUserRequest = require('../flights/userRequest');
 
 /**
  * Checks the validity of the received postback (authentication with sha1).
@@ -71,9 +72,9 @@ function parseJson(req) {
                             // Split on type of payload
 
                             if (payload.indexOf('flight_number') !== 0) {
-                                // Selected a flight
+                                // Selected a flight, set reminders for it
                                 var flight = JSON.parse(payload);
-                                // TODO
+                                flightUserRequest.setReminder(sender_uid, null, flight);
                             }
                         }
                     } else {

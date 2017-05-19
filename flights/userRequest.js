@@ -178,7 +178,7 @@ module.exports = {
     /**
      * Sets reminders for the flight given in the result from api.ai. Note this happens async with the processing event
      */
-    setReminder: function (uid, result) {
+    setReminder: function (uid, result, flight) {
 
         // TODO actually set the reminders
 

@@ -1,15 +1,15 @@
 'use strict';
 
-// File that handles receiving check flight messages from api.ai
+// File that handles fulfilling flight-related messages from api.ai
 
 // Npm dependencies
 var sleep = require('system-sleep');
 
 // My js dependencies
-var logger = require('../util/logger');
-var flightUtils = require('../util/flights');
-var apiAi = require('../util/apiAi');
-var fbMessenger = require('../util/fbMessenger');
+var logger = require('../../util/logger');
+var flightUtils = require('../../util/flights');
+var apiAi = require('../../util/apiAi');
+var fbMessenger = require('../../util/fbMessenger');
 
 module.exports = {
 

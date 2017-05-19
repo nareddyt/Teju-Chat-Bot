@@ -7,7 +7,7 @@ var basicAuth = require('basic-auth');
 
 // My js dependencies
 var logger = require('../util/logger');
-var flightRequest = require('../flights/userRequest');
+var flightRequest = require('./flights/userRequest');
 var apiAiUtils = require('../util/apiAi');
 
 module.exports = {
@@ -54,6 +54,8 @@ module.exports = {
             flightRequest.searchForPlane(uid, result);
         } else if (action === 'set_flight_reminder') {
             flightRequest.setReminder(uid, result, null);
+        } else if (action === 'reset_contexts') {
+
         } else {
             logger.log('warn', 'fulfill call with undefined action:', action);
             logger.log('warn', 'note that' + uid + 'is now in processing state');

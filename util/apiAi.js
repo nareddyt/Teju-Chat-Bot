@@ -67,6 +67,26 @@ module.exports = {
     },
 
     /**
+     * Sends an reset contexts query to api.ai
+     */
+    resetContexts: function (uid, callback, callbackOnError) {
+        // Set up the options with the session id
+        var options = {
+            sessionId: uid
+        };
+
+        // Create the request
+        var request = app.deleteContextsRequest(options);
+
+        // Set up the callbacks
+        request.on('response', callback);
+        request.on('error', callbackOnError);
+
+        // Send the request to api.ai!
+        request.end();
+    },
+
+    /**
      * Sends a fulfillment response with a followup back to api.ai
      */
     sendFollowupResponse: function (res, followupEvent, parameters) {

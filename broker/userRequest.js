@@ -10,7 +10,7 @@ var logger = require('../util/logger');
 var security = require('../util/security');
 var errorHandler = require('../util/errorHandler');
 var rateLimiter = require('./rateLimter');
-var flightUserRequest = require('../flights/userRequest');
+var flightUserRequest = require('../fulfillment/flights/userRequest');
 
 /**
  * Checks the validity of the received postback (authentication with sha1).

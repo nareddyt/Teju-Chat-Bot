@@ -111,6 +111,9 @@ module.exports = {
      */
     onApiAiResponse: function (uid, response) {
         // Send that message(s) to the user!
+        if (!response.result.fulfillment) {
+            return;
+        }
 
         // Loop through all the messages
         var messages = response.result.fulfillment.messages;

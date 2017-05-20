@@ -112,6 +112,7 @@ module.exports = {
     onApiAiResponse: function (uid, response) {
         // Send that message(s) to the user!
         if (!response.result) {
+            // Not a text message response, don't send it as a facebook message
             return;
         }
 

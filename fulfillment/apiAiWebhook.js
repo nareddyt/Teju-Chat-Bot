@@ -55,11 +55,11 @@ module.exports = {
             flightRequest.searchForPlane(uid, result);
         } else if (action === 'set_flight_reminder') {
             flightRequest.setReminder(uid, result, null);
-        } else if (action === 'reset_contexts') {
+        } else if (action === 'cancel') {
             conversationRequest.resetContextsRequest(uid, result);
         } else {
-            logger.log('warn', 'fulfill call with undefined action:', action);
-            logger.log('warn', 'note that' + uid + 'is now in processing state');
+            logger.log('error', 'fulfill call with undefined action:', action);
+            logger.log('error', 'note that' + uid + 'is now in processing state');
         }
     }
 };

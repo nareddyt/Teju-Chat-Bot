@@ -23,6 +23,9 @@ router.post('/broker', handleUserMessage);
 // Handles pings
 router.get('/ping', handlePing);
 
+// Handles loader-io verification
+router.get('/loaderio-fb617d85d8368ab570af9637375024ce', handlePing);
+
 // Handle api.ai webhook
 router.post('/fulfillment', handleWebhook.auth, handleWebhook.fulfill);
 
